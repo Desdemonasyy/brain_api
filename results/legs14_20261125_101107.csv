@@ -1,0 +1,5 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+X3_mkt_d3,akRjlY15,2.08,2.5,0.134,0.1937,
+X3_mkt_d5,N1Kx6MrE,1.99,2.43,0.1056,0.186,
+X3_ind_d3,0mGOdeeq,2.18,2.26,0.1441,0.1546,
+X3_none_d3,zqAKjmxV,1.04,1.98,0.0473,0.452,LOW_SHARPE

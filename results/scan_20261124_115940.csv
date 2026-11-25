@@ -1,0 +1,3 @@
+﻿params,alpha_id,sharpe,fitness,turnover,returns,drawdown,margin,sub_universe_sharpe,sub_universe_limit,pass_basic
+decay=25 w_n=1.5 w_v=1.0,zqdVW33O,1.94,1.33,0.2533,0.1198,0.0864,0.000946,1.44,0.84,True
+decay=35 w_n=1.5 w_v=1.0,1YWMgONz,1.88,1.31,0.2378,0.1147,0.0876,0.000964,1.38,0.81,True

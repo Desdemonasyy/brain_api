@@ -1,0 +1,7 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+H1_ni_ep,A1Lj3ljW,1.63,1.66,0.0915,0.1304,
+H2_cf_equity,vRYwmAMz,1.66,1.59,0.0834,0.1144,
+H3_npm,akRjOG15,1.42,1.32,0.0757,0.1073,
+H4_fep_npm,WjY1gvVN,2.09,2.38,0.1093,0.1625,
+H5_fep_hv,P0PQp9NE,0.93,0.92,0.0843,0.1223,LOW_SHARPE|LOW_FITNESS
+H6_fep_ind2k,88G5zrpq,2.46,2.32,0.1218,0.1113,

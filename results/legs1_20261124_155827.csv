@@ -1,0 +1,9 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+L1_iv_term,,,,,,ERROR
+L2_skew90,,,,,,ERROR
+L3_fwd_ep,,,,,,ERROR
+L4_dispersion,,,,,,ERROR
+L5_cash_assets,,,,,,ERROR
+L6_curr_liab,,,,,,ERROR
+L7_net_margin,,,,,,ERROR
+L8_div,,,,,,ERROR

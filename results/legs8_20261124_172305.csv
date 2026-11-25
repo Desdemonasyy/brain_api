@@ -1,0 +1,6 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+L3_1000,1YWrv7VK,1.41,1.14,0.0865,0.0821,
+E1_1000,gJanveKl,1.77,1.42,0.0925,0.08,
+LLKQ_1000,O0WlejNg,1.72,1.41,0.0504,0.0836,
+rK7_1000,blae7Gxl,1.49,1.42,0.0625,0.1143,
+L3_500,6XM5gPnp,1.03,0.74,0.0873,0.0653,LOW_SHARPE|LOW_FITNESS

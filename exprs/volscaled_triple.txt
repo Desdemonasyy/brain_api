@@ -1,0 +1,4 @@
+rev = -group_zscore((close - open) / open / ts_std_dev(returns, 20), subindustry);
+n = group_rank(ts_mean(vec_avg(nws12_afterhsz_sl), 20), subindustry) - 0.5;
+v = group_rank(ts_zscore(cashflow_op / cap, 250), subindustry) - 0.5;
+rev + 2.0 * n + 1.5 * v

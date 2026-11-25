@@ -1,0 +1,5 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+w1.0,j2VzwkrE,1.8,2.0,0.1206,0.1541,
+w1.5,omP89772,1.66,1.7,0.1076,0.1309,
+w1.0_t2k,GrQ13vVZ,1.55,1.49,0.1313,0.1216,
+Turn_solo,QPWZ5lLg,0.28,0.1,0.0504,0.0173,LOW_SHARPE|LOW_FITNESS

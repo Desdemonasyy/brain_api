@@ -1,0 +1,4 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+E1_ebit_yield,58JP8za1,1.48,1.08,0.0824,0.0668,
+E2_eps_revision,LLK0LzAn,0.54,0.25,0.0492,0.0274,LOW_SHARPE|LOW_FITNESS
+E3_fcfps_number,aka5kmKw,0.26,0.07,0.0347,0.0093,LOW_SHARPE|LOW_FITNESS

@@ -1,0 +1,4 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+P1_52wk_high,,,,,,ERROR
+P2_lottery,,,,,,ERROR
+P3_pv_corr,d5aNgpwx,0.1,0.02,0.1165,0.0043,LOW_SHARPE|LOW_FITNESS

@@ -1,0 +1,7 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns
+iv_call_minus_put_30,78YpYw6b,2.11,1.21,0.2688,0.088
+iv_call_minus_put_60,3q0N0j7N,1.88,1.11,0.2327,0.0816
+iv_call_minus_put_90,KPg1gZZx,1.92,1.21,0.2028,0.0803
+iv_call_minus_put_120,2r5YG1lZ,1.87,1.19,0.1887,0.077
+iv_call_minus_put_180,qM7R5qX2,1.82,1.18,0.1748,0.0738
+iv_call_minus_put_270,58JXG6M6,1.62,1.01,0.1722,0.0664

@@ -1,0 +1,9 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns
+rating_neg,,,,,
+rating_pos,,,,,
+rating_chg60,,,,,
+cf_guid_level,N1PZN62L,0.72,0.5,0.0137,0.0602
+cf_guid_chg90,vRAQ1lwz,0.0,0.0,0.0198,0.0003
+iv_low_10,ZYaJQm5Q,-0.03,-0.01,0.0891,-0.0054
+iv_term_90_30,j2a7YOmo,0.47,0.2,0.1659,0.0286
+iv_put_minus_call_90,1YWMWYVQ,-1.92,-1.21,0.2028,-0.0803

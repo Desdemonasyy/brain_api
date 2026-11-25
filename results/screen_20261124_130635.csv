@@ -1,0 +1,14 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns
+close_in_range,P05VGJPw,1.31,0.74,0.3158,0.1012
+vwap_dev,RRegmMp1,-1.14,-0.62,0.3289,-0.096
+volw_rev,A1xAGKRd,1.25,0.84,0.3251,0.1477
+volscaled_rev,omadNwev,1.52,0.97,0.3238,0.1331
+rev_2d_skip,9qlnp9g1,0.76,0.47,0.2491,0.0949
+rev_10d_skip,d5aGZZEY,0.38,0.23,0.1251,0.0453
+news_5d,1YWMpjwQ,0.09,0.01,0.3968,0.003
+upper_shadow,E5QdGzo9,0.1,0.04,0.0645,0.0203
+lower_shadow,leamWPmN,0.41,0.33,0.067,0.0792
+vwap_change,j2a7j22o,0.79,0.46,0.3102,0.1035
+turnover_5d,0mPJw0Zp,0.01,0.0,0.0307,0.0021
+vol_regime,O0W37q27,-0.27,-0.08,0.1398,-0.0137
+ctrl_intraday_rev,qM7RjnQv,1.34,0.91,0.3312,0.1544

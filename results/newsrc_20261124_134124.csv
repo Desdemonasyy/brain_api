@@ -1,0 +1,10 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns
+low_beta_90,QP08blNX,-0.2,-0.1,0.1021,-0.029
+low_beta_360,qM7RxlE1,-0.27,-0.15,0.0885,-0.0376
+low_idio_vol_90,2r5YwjZN,0.09,0.03,0.1327,0.0117
+low_corr_90,RRegbzEa,-0.09,-0.02,0.1043,-0.0055
+fwd_price_90,rK7xOqWm,0.19,0.06,0.1071,0.013
+call_breakeven_90,omadW7Kk,0.21,0.11,0.0595,0.0332
+put_breakeven_90,9qlnWggd,0.36,0.17,0.0689,0.0279
+pcr_oi_90_neg,omadW3N6,-0.32,-0.1,0.0491,-0.0134
+breakeven_spread_90,gJa2Z81g,0.09,0.03,0.062,0.0131

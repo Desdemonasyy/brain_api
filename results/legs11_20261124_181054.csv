@@ -1,0 +1,7 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+R1_resid_rev,,,,,,ERROR
+R2_cap_bucket,LLK0gQd1,1.73,0.81,0.7895,0.1733,LOW_FITNESS|HIGH_TURNOVER
+R3_ind_mom,N1PYnoJX,-0.69,-0.59,0.0661,-0.0902,LOW_SHARPE|LOW_FITNESS|LOW_SUB_UNIVERSE_SHARPE
+R4_mul_rev_lev,58JPLLg5,2.0,1.39,0.2198,0.106,
+R5_mul_ebit_vol,2r53vwGb,0.3,0.17,0.0824,0.0382,LOW_SHARPE|LOW_FITNESS
+R6_mul_pv_rev,j2aqnxM9,1.38,0.76,0.2504,0.0755,LOW_FITNESS

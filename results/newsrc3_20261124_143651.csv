@@ -1,0 +1,8 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+roe_lev_combo,LLKQmR7M,2.12,1.85,0.0435,0.0948,
+roe_group_sector,9qlndj2o,1.31,0.88,0.0444,0.0566,LOW_FITNESS
+buzz_std20,mLav07gW,0.77,0.51,0.0759,0.0559,LOW_SHARPE|LOW_FITNESS|LOW_SUB_UNIVERSE_SHARPE
+equity_growth,Jj89W652,0.81,0.38,0.0541,0.0269,LOW_SHARPE|LOW_FITNESS
+iv_parkinson,rK7xGmAE,1.6,1.32,0.0656,0.0845,
+fcf_equity,E5QdzgEP,1.14,0.62,0.0664,0.0367,LOW_SHARPE|LOW_FITNESS
+ptp_fcf_corr,gJa2Gr0v,1.14,0.64,0.0232,0.0388,LOW_SHARPE|LOW_FITNESS

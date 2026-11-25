@@ -1,0 +1,5 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+J1_rev_fep,VkM1pp7w,1.62,0.98,0.5668,0.206,LOW_FITNESS
+J2_rev_fep_iv,legpVvK5,2.03,1.38,0.5313,0.2459,
+J3_rev_ebit,zqAK9g2X,2.0,1.17,0.5514,0.1897,
+J4_intraday_rev_fep,d59kx6NE,1.42,0.79,0.5648,0.175,LOW_FITNESS
