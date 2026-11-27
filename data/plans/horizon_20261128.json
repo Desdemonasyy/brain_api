@@ -1,0 +1,65 @@
+{
+  "batch": "horizon_20261128",
+  "hypothesis": "逻辑门批次给出结构性结论：在同样的 volume>adv20 触发门下，10 日反转(h10) S1.66/F1.20/R16.98%/DD9.12% 明显优于 5 日(h5 1.44/1.03)；而 exit 门、下跌门、regime switch、放量动量都无效。本批只围绕 h10 收尾：(1) h10 + ROE 锚(if_else 与 trade_when 两种写法，decay18 压换手)；(2) h10 在 TOP1000 的表现；(3) 反转窗口 15/20 日；(4) 更强放量门 1.2 倍。目标 F>=1.4、T<=12.5%、与 legJOM22 本地相关 <0.7。",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 5,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "H10_roe_d18",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 10)), 0) + 0.8 * rank(ts_rank(operating_income / equity, 63))",
+      "settings": {"universe": "TOP200", "decay": 18},
+      "priority": 0.95
+    },
+    {
+      "label": "H10_roe_tw_d18",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 10)) + 0.8 * rank(ts_rank(operating_income / equity, 63)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 18},
+      "priority": 0.93
+    },
+    {
+      "label": "H10_t1000_d5",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 10)), volume < 0)",
+      "settings": {"universe": "TOP1000", "decay": 5},
+      "priority": 0.86
+    },
+    {
+      "label": "H15_t200_d5",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 15)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 5},
+      "priority": 0.80
+    },
+    {
+      "label": "H20_t200_d5",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 20)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 5},
+      "priority": 0.78
+    },
+    {
+      "label": "H10_vol12",
+      "expression": "trade_when(volume > 1.2 * adv20, rank(-ts_rank(returns, 10)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 5},
+      "priority": 0.82
+    },
+    {
+      "label": "H10_roe_d10",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 10)), 0) + 0.8 * rank(ts_rank(operating_income / equity, 63))",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.84
+    },
+    {
+      "label": "H10_roe_t1000_d18",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 10)), 0) + 0.8 * rank(ts_rank(operating_income / equity, 63))",
+      "settings": {"universe": "TOP1000", "decay": 18},
+      "priority": 0.83
+    }
+  ]
+}

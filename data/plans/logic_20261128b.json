@@ -1,0 +1,77 @@
+{
+  "batch": "logic_20261128b",
+  "hypothesis": "第一轮逻辑批次给出两个可用结论：(1) 平台 trade_when 真实签名是 trade_when(触发, Alpha, 退出)，上一批写反导致 4 条 S=0，本批用 volume<0 作永不退出条件重写；(2) 放量日 5 日反转是唯一新信号(TOP1000 S1.42/F0.76)，本批搬到日报 TOP200 外壳并加 hump/decay 压换手，目标 F>=1.0；(3) close-vwap 原始方向 S=-1.13，说明应做反向(收盘弱于均价次日修复)，本批验证反向。逻辑冠军门控版已确认与 legJOM22 本地相关 0.982，不再重跑。",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T_volrev_fix",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.70
+    },
+    {
+      "label": "T_volrev_t200",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.86
+    },
+    {
+      "label": "RV_t200_if",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 5)), 0)",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.85
+    },
+    {
+      "label": "RV_t200_d18",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 5)), 0)",
+      "settings": {"universe": "TOP200", "decay": 18},
+      "priority": 0.84
+    },
+    {
+      "label": "RV_t200_hump",
+      "expression": "hump(if_else(volume > adv20, rank(-ts_rank(returns, 5)), 0), 0.05)",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.82
+    },
+    {
+      "label": "RV_d15",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 5)), 0)",
+      "settings": {"decay": 15},
+      "priority": 0.66
+    },
+    {
+      "label": "CV_rev",
+      "expression": "rank(-(close - vwap) / close)",
+      "settings": {"decay": 10},
+      "priority": 0.68
+    },
+    {
+      "label": "CV_rev_t200",
+      "expression": "rank(-(close - vwap) / close)",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.83
+    },
+    {
+      "label": "RV_roe_t200",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 5)), 0) + 0.8 * rank(ts_rank(operating_income / equity, 63))",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.80
+    },
+    {
+      "label": "T_champ_fix",
+      "expression": "trade_when(volume > adv20, rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.78
+    }
+  ]
+}

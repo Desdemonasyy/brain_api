@@ -1,0 +1,107 @@
+{
+  "batch": "logic_20261128",
+  "hypothesis": "用 Logical 算子（and/or/not/if_else + 比较运算 + trade_when）做事件门控，而不是继续换因子窗口：核心假设是同一信号在不同状态下胜率不同，门控能提升信噪比并压低换手。第一组验证价量状态（放量反转、放量动量、close-vwap 强弱、压力反转、跳空回补）；第二组把逻辑门加在 FwdEP/新闻/社媒/偏斜上；第三组用 trade_when 把日报冠军配方改成只在放量日调仓，测试低换手版本。全部 Delay1 / USA / MARKET / trunc 0.01，单项 TOP1000 筛查、成品 TOP200。",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "L_if_volrev",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 5)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.62
+    },
+    {
+      "label": "L_tw_volrev",
+      "expression": "trade_when(rank(-ts_rank(returns, 5)), volume > adv20, 1)",
+      "settings": {"decay": 5},
+      "priority": 0.66
+    },
+    {
+      "label": "L_tw_volmom",
+      "expression": "trade_when(rank(ts_rank(returns, 20)), and(volume > adv20, returns > 0), 1)",
+      "settings": {"decay": 5},
+      "priority": 0.64
+    },
+    {
+      "label": "L_cv_strength",
+      "expression": "rank((close - vwap) / close)",
+      "settings": {"decay": 10},
+      "priority": 0.60
+    },
+    {
+      "label": "L_or_stress_rev",
+      "expression": "if_else(or(rank(ts_std_dev(returns, 20)) > 0.8, abs(returns) > 0.05), rank(-ts_rank(returns, 5)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.61
+    },
+    {
+      "label": "L_not_extreme_rev",
+      "expression": "if_else(not(rank(volume) > 0.9), rank(-ts_rank(returns, 5)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.59
+    },
+    {
+      "label": "L_gap_fade",
+      "expression": "if_else(open > ts_delay(close, 1) * 1.02, rank(-returns), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.58
+    },
+    {
+      "label": "L_eps_up_gate",
+      "expression": "if_else(and(ts_delta(anl4_afv4_eps_mean, 63) > 0, close > vwap), rank(ts_rank(anl4_afv4_eps_mean / close, 252)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.70
+    },
+    {
+      "label": "L_news_gate",
+      "expression": "if_else(rank(ts_backfill(mean_news_impact_projection, 5)) > 0.7, rank(ts_backfill(mean_news_impact_projection, 5)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.63
+    },
+    {
+      "label": "L_buzz_value",
+      "expression": "if_else(rank(ts_backfill(scl12_buzz, 20)) > 0.7, rank(ts_rank(anl4_afv4_eps_mean / close, 252)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.68
+    },
+    {
+      "label": "L_skew_gate",
+      "expression": "if_else(implied_volatility_mean_skew_60 > 0, rank(ts_backfill(implied_volatility_mean_skew_60, 20)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.57
+    },
+    {
+      "label": "L_calm_value",
+      "expression": "if_else(and(rank(ts_std_dev(returns, 20)) < 0.5, close > vwap), rank(ts_rank(anl4_afv4_eps_mean / close, 252)), 0)",
+      "settings": {"decay": 10},
+      "priority": 0.67
+    },
+    {
+      "label": "L_new4_tw",
+      "expression": "trade_when(rank(-ts_backfill(beta_last_30_days_spy, 20)) + rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20)) + 1.2 * rank(-ts_rank((anl4_afv4_eps_high - anl4_afv4_eps_low) / close, 252)) + 0.8 * rank(-ts_backfill(share_award_expense_total / assets, 120)), volume > adv20, 1)",
+      "settings": {"universe": "TOP200", "decay": 18},
+      "priority": 0.92
+    },
+    {
+      "label": "L_champ_gate",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * if_else(volume > adv20, rank(ts_backfill(scl12_buzz, 60)), 0)",
+      "settings": {"universe": "TOP200", "decay": 18},
+      "priority": 0.95
+    },
+    {
+      "label": "L_champ_tw",
+      "expression": "trade_when(rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60)), volume > adv20, 1)",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.94
+    }
+  ]
+}

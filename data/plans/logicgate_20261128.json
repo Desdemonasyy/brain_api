@@ -1,0 +1,101 @@
+{
+  "batch": "logicgate_20261128",
+  "hypothesis": "围绕逻辑门本身做系统扫描，不追求新数据源。已验证的可用核心是：放量日 5 日反转 + trade_when(触发, Alpha, 退出) 持仓，TOP1000 S1.92/F1.15、TOP200 S1.44/F1.03、加 ROE 后 TOP200 低换手版 S1.49/F1.43/T11%。本批只变逻辑门：(1) 触发门：放量1.2倍/低量/下跌且放量/高波动/剔除极端量；(2) 退出门：盈利目标退出 vs 永不退出；(3) 状态机：下跌才入场、上涨才退出；(4) regime switch：高波动做反转、低波动做动量；(5) 门控对象换成 ROE、FwdEP、close-vwap。全部 USA/Delay1/MARKET/trunc0.01，TOP200 为主，纯反转 decay 5、带基本面腿 decay 18。",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 5,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "G_rev_vol12",
+      "expression": "trade_when(volume > 1.2 * adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.86
+    },
+    {
+      "label": "G_rev_quiet",
+      "expression": "trade_when(volume < 0.8 * adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.72
+    },
+    {
+      "label": "G_rev_downvol",
+      "expression": "trade_when(and(volume > adv20, returns < 0), rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.88
+    },
+    {
+      "label": "G_rev_exit",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), returns > 0.05)",
+      "settings": {"decay": 5},
+      "priority": 0.80
+    },
+    {
+      "label": "G_rev_h10",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 10)), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.78
+    },
+    {
+      "label": "G_rev_not_ext",
+      "expression": "trade_when(and(volume > adv20, not(rank(volume) > 0.95)), rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.76
+    },
+    {
+      "label": "G_rev_highvol",
+      "expression": "trade_when(ts_std_dev(returns, 20) > ts_mean(ts_std_dev(returns, 20), 252), rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.74
+    },
+    {
+      "label": "G_mom_vol",
+      "expression": "trade_when(and(volume > adv20, returns > 0), rank(ts_rank(returns, 20)), volume < 0)",
+      "settings": {"decay": 10},
+      "priority": 0.70
+    },
+    {
+      "label": "G_cv_rev_vol",
+      "expression": "trade_when(volume > adv20, rank(-(close - vwap) / close), volume < 0)",
+      "settings": {"decay": 5},
+      "priority": 0.75
+    },
+    {
+      "label": "G_roe_vol",
+      "expression": "trade_when(volume > adv20, rank(ts_rank(operating_income / equity, 63)), volume < 0)",
+      "settings": {"decay": 18},
+      "priority": 0.73
+    },
+    {
+      "label": "G_value_strength",
+      "expression": "trade_when(and(close > vwap, volume > adv20), rank(ts_rank(anl4_afv4_eps_mean / close, 252)), volume < 0)",
+      "settings": {"decay": 18},
+      "priority": 0.77
+    },
+    {
+      "label": "G_rev_roe_and",
+      "expression": "trade_when(and(volume > adv20, close > vwap), rank(-ts_rank(returns, 5)) + 0.8 * rank(ts_rank(operating_income / equity, 63)), volume < 0)",
+      "settings": {"decay": 18},
+      "priority": 0.90
+    },
+    {
+      "label": "G_regime_switch",
+      "expression": "if_else(ts_std_dev(returns, 20) > ts_mean(ts_std_dev(returns, 20), 252), rank(-ts_rank(returns, 5)), rank(ts_rank(returns, 20)))",
+      "settings": {"decay": 10},
+      "priority": 0.82
+    },
+    {
+      "label": "G_state_machine",
+      "expression": "trade_when(returns < 0, rank(-ts_rank(returns, 5)), returns > 0.03)",
+      "settings": {"decay": 5},
+      "priority": 0.84
+    }
+  ]
+}

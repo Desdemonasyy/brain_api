@@ -1,0 +1,125 @@
+{
+  "batch": "newsrc_20261127",
+  "hypothesis": "承接 2026-11-27 日报思路：日报冠军 legJOM22(T9_d18) 证明 TOP200 + Delay1 + MARKET + decay18 + 低换手(~7.6%) 的四因子正交组合可把 Fitness 推到 3.6；但同族当日 53 条 family_suppressed，继续扫窗口只会同源。本批改为换数据源而非换参数：model51(beta/系统性风险)、option8(IV 期限结构/偏斜)、analyst4(预测分散度/覆盖变化)、news18(事件新颖度)、fundamental2(SBC 稀释) 均为未使用字段。先单项筛方向，再两两组合，最后按日报配方做 4 腿低换手组合；保留 FwdEP/ROE 锚点对照，用于测量与冠军的本地 PnL 相关性，确保后续 prod 检查有余量。",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "N_beta_low",
+      "expression": "rank(-ts_backfill(beta_last_30_days_spy, 20))",
+      "settings": {"decay": 10},
+      "priority": 0.62
+    },
+    {
+      "label": "N_beta_trend",
+      "expression": "rank(-(ts_backfill(beta_last_30_days_spy, 20) - ts_backfill(beta_last_360_days_spy, 20)))",
+      "settings": {"decay": 10},
+      "priority": 0.60
+    },
+    {
+      "label": "N_ivts_contango",
+      "expression": "rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20))",
+      "settings": {"decay": 10},
+      "priority": 0.61
+    },
+    {
+      "label": "N_ivts_invert",
+      "expression": "rank(-ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20))",
+      "settings": {"decay": 10},
+      "priority": 0.59
+    },
+    {
+      "label": "N_skew60_hi",
+      "expression": "rank(ts_backfill(implied_volatility_mean_skew_60, 20))",
+      "settings": {"decay": 10},
+      "priority": 0.58
+    },
+    {
+      "label": "N_disp_low",
+      "expression": "rank(-ts_rank((anl4_afv4_eps_high - anl4_afv4_eps_low) / close, 252))",
+      "settings": {"decay": 10},
+      "priority": 0.63
+    },
+    {
+      "label": "N_cov_up",
+      "expression": "rank(ts_delta(ts_backfill(anl4_afv4_eps_number, 20), 63))",
+      "settings": {"decay": 10},
+      "priority": 0.57
+    },
+    {
+      "label": "N_novelty_hi",
+      "expression": "rank(ts_backfill(mean_event_novelty_score, 20))",
+      "settings": {"decay": 10},
+      "priority": 0.56
+    },
+    {
+      "label": "N_sbc_low",
+      "expression": "rank(-ts_backfill(share_award_expense_total / assets, 120))",
+      "settings": {"decay": 10},
+      "priority": 0.64
+    },
+    {
+      "label": "N_beta_ivts",
+      "expression": "rank(-ts_backfill(beta_last_30_days_spy, 20)) + rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20))",
+      "settings": {"decay": 12},
+      "priority": 0.72
+    },
+    {
+      "label": "N_beta_disp",
+      "expression": "rank(-ts_backfill(beta_last_30_days_spy, 20)) + 1.2 * rank(-ts_rank((anl4_afv4_eps_high - anl4_afv4_eps_low) / close, 252))",
+      "settings": {"decay": 12},
+      "priority": 0.73
+    },
+    {
+      "label": "N_ivts_skew",
+      "expression": "rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20)) + rank(ts_backfill(implied_volatility_mean_skew_60, 20))",
+      "settings": {"decay": 12},
+      "priority": 0.70
+    },
+    {
+      "label": "N_beta_sbc",
+      "expression": "rank(-ts_backfill(beta_last_30_days_spy, 20)) + 0.8 * rank(-ts_backfill(share_award_expense_total / assets, 120))",
+      "settings": {"decay": 12},
+      "priority": 0.74
+    },
+    {
+      "label": "N_new4",
+      "expression": "rank(-ts_backfill(beta_last_30_days_spy, 20)) + rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20)) + 1.2 * rank(-ts_rank((anl4_afv4_eps_high - anl4_afv4_eps_low) / close, 252)) + 0.8 * rank(-ts_backfill(share_award_expense_total / assets, 120))",
+      "settings": {"decay": 18},
+      "priority": 0.92
+    },
+    {
+      "label": "N_new4_news",
+      "expression": "rank(-ts_backfill(beta_last_30_days_spy, 20)) + rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20)) + 1.2 * rank(-ts_rank((anl4_afv4_eps_high - anl4_afv4_eps_low) / close, 252)) + 0.8 * rank(ts_backfill(mean_event_novelty_score, 20))",
+      "settings": {"decay": 18},
+      "priority": 0.90
+    },
+    {
+      "label": "N_new4_skew",
+      "expression": "rank(-ts_backfill(beta_last_30_days_spy, 20)) + rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20)) + rank(ts_backfill(implied_volatility_mean_skew_60, 20)) + 0.8 * rank(-ts_backfill(share_award_expense_total / assets, 120))",
+      "settings": {"decay": 18},
+      "priority": 0.88
+    },
+    {
+      "label": "N_value_new",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(-ts_backfill(beta_last_30_days_spy, 20)) + rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20)) + 0.8 * rank(-ts_backfill(share_award_expense_total / assets, 120))",
+      "settings": {"decay": 18},
+      "priority": 0.94
+    },
+    {
+      "label": "N_qual_new",
+      "expression": "1.2 * rank(ts_rank(operating_income / equity, 63)) + rank(-ts_backfill(beta_last_30_days_spy, 20)) + rank(ts_backfill(implied_volatility_mean_360 / implied_volatility_mean_30, 20)) + rank(-ts_rank((anl4_afv4_eps_high - anl4_afv4_eps_low) / close, 252)) + 0.6 * rank(-ts_backfill(share_award_expense_total / assets, 120))",
+      "settings": {"decay": 18},
+      "priority": 0.93
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "batch": "logic_20261128c",
+  "hypothesis": "T_volrev_t200(WjYwnN5Z) 已证明是全新信号：S1.44/F1.03/T25.0%/R12.66%/DD9.09%，与 legJOM22 本地相关 -0.114、与 T3b_Ind -0.006。唯一短板是换手 25%，而 Fitness 分母锁在 12.5%。本批只调 decay(15/20/30) 把换手压到 12.5% 以下，并对比 TOP200/TOP1000；同时验证平台 hump 仅接受 1 个参数。另补 RV_roe_t200 的 decay18 版本，看 ROE 锚能否在低换手下提升 Fitness。",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 15,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "TRV_t200_d15",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 15},
+      "priority": 0.92
+    },
+    {
+      "label": "TRV_t200_d20",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 20},
+      "priority": 0.91
+    },
+    {
+      "label": "TRV_t200_d30",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"universe": "TOP200", "decay": 30},
+      "priority": 0.90
+    },
+    {
+      "label": "TRV_t1000_d15",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"universe": "TOP1000", "decay": 15},
+      "priority": 0.78
+    },
+    {
+      "label": "TRV_t1000_d20",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"universe": "TOP1000", "decay": 20},
+      "priority": 0.77
+    },
+    {
+      "label": "TRV_t1000_d30",
+      "expression": "trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0)",
+      "settings": {"universe": "TOP1000", "decay": 30},
+      "priority": 0.76
+    },
+    {
+      "label": "TRV_t200_hump",
+      "expression": "hump(trade_when(volume > adv20, rank(-ts_rank(returns, 5)), volume < 0))",
+      "settings": {"universe": "TOP200", "decay": 10},
+      "priority": 0.80
+    },
+    {
+      "label": "RV_roe_t200_d18",
+      "expression": "if_else(volume > adv20, rank(-ts_rank(returns, 5)), 0) + 0.8 * rank(ts_rank(operating_income / equity, 63))",
+      "settings": {"universe": "TOP200", "decay": 18},
+      "priority": 0.85
+    }
+  ]
+}
