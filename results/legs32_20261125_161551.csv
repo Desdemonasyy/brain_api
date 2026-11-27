@@ -1,0 +1,7 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+R1_plus_news,qM58Xpw1,2.36,2.83,0.144,0.2067,
+R2_plus_skew,QPWMaLPK,2.34,3.01,0.1141,0.2065,
+R3_rev_w20,MPgOpbQL,2.65,2.97,0.1883,0.2373,
+R4_trunc04,1YGe7j6R,2.47,3.26,0.1147,0.2178,
+R5_decay05,MPgOpvxa,2.67,2.61,0.263,0.2522,
+R6_rev3d,0mGqEv6p,2.4,3.12,0.109,0.2107,

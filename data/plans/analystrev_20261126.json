@@ -1,0 +1,65 @@
+{
+  "batch": "analystrev_20261126",
+  "hypothesis": "全新根信号：彻底放弃 反转+IV/HV+ROE 骨架，从零起纯分析师修正（盈利预测上修动量）+ 盈利质量（现金流/应计）+ 分析师评级。这些是分析师行为域，与已提交的反转/IVHV/ROE/EPS水平 正交",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "EPSREV_63",
+      "expression": "rank(ts_rank(ts_delta(anl4_afv4_eps_mean, 63), 126))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.95
+    },
+    {
+      "label": "NIREV_63",
+      "expression": "rank(ts_rank(ts_delta(anl4_adjusted_netincome_ft, 63), 126))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.93
+    },
+    {
+      "label": "CASHQUAL",
+      "expression": "rank(ts_rank(cashflow_op / operating_income, 252))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.91
+    },
+    {
+      "label": "RATING_LVL",
+      "expression": "rank(ts_mean(vec_avg(anl4_eaz2lrec_ratingvalue), 20))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.89
+    },
+    {
+      "label": "RATING_REV",
+      "expression": "rank(ts_mean(ts_delta(vec_avg(anl4_eaz2lrec_ratingvalue), 84), 20))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.87
+    },
+    {
+      "label": "EPSREV_CASHQ",
+      "expression": "rank(ts_rank(ts_delta(anl4_afv4_eps_mean, 63), 126)) + 0.5 * rank(ts_rank(cashflow_op / operating_income, 252))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.85
+    },
+    {
+      "label": "EPSREV_RATING",
+      "expression": "rank(ts_rank(ts_delta(anl4_afv4_eps_mean, 63), 126)) + 0.5 * rank(ts_mean(vec_avg(anl4_eaz2lrec_ratingvalue), 20))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.83
+    },
+    {
+      "label": "NIREV_CASHQ",
+      "expression": "rank(ts_rank(ts_delta(anl4_adjusted_netincome_ft, 63), 126)) + 0.5 * rank(ts_rank(cashflow_op / operating_income, 252))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.80
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "batch": "excel2_20261126",
+  "hypothesis": "SPECTACULAR 核心用的是 truncation=0.01（T=19.67%/F=2.52），而 revcore 批次误用了 0.02（T=29-48%/F=1.8-2.0）。把去核心基座的 truncation 降到 0.01 压低换手抬 Fitness，配合反转权重扫描与股本增长腿，目标 EXCELLENT（S≥1.8 且 F≥2.0，self<0.7）",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "TRUNC01_Rev1",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.95
+    },
+    {
+      "label": "TRUNC01_Rev15",
+      "expression": "-1.5 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.93
+    },
+    {
+      "label": "TRUNC01_Rev2",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.91
+    },
+    {
+      "label": "TRUNC01_Rev1_EQG",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_rank(ts_delta(equity, 63), 175))",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.89
+    },
+    {
+      "label": "TRUNC01_Rev15_EQG",
+      "expression": "-1.5 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_rank(ts_delta(equity, 63), 175))",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.87
+    },
+    {
+      "label": "TRUNC01_Rev2_EQG",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_rank(ts_delta(equity, 63), 175))",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.85
+    },
+    {
+      "label": "TRUNC01_Rev1_TURN",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.3 * rank(sales / assets)",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.83
+    },
+    {
+      "label": "TRUNC01_Rev1_TURNEQG",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.25 * rank(sales / assets) + 0.25 * rank(ts_rank(ts_delta(equity, 63), 175))",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.80
+    }
+  ]
+}

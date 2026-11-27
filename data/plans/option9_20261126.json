@@ -1,0 +1,77 @@
+{
+  "batch": "option9_20261126",
+  "hypothesis": "新数据源 option9 期限结构：远期曲线斜率/曲率、盈亏平衡曲线、PCR 期限价差及其变化",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.08,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "OPT9_fwd_slope",
+      "expression": "group_rank((forward_price_360 - forward_price_30) / close, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.95
+    },
+    {
+      "label": "OPT9_fwd_curv",
+      "expression": "group_rank((forward_price_30 + forward_price_360 - 2 * forward_price_180) / close, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.90
+    },
+    {
+      "label": "OPT9_fwd_short_prem",
+      "expression": "group_rank((forward_price_30 - close) / close, subindustry)",
+      "settings": {"decay": 5, "truncation": 0.08},
+      "priority": 0.85
+    },
+    {
+      "label": "OPT9_fwd_long_prem",
+      "expression": "group_rank((forward_price_360 - close) / close, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.80
+    },
+    {
+      "label": "OPT9_be_slope",
+      "expression": "group_rank((option_breakeven_360 - option_breakeven_30) / close, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.75
+    },
+    {
+      "label": "OPT9_be_curv",
+      "expression": "group_rank((option_breakeven_30 + option_breakeven_360 - 2 * option_breakeven_180) / close, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.70
+    },
+    {
+      "label": "OPT9_pcr_term",
+      "expression": "group_rank(-(pcr_oi_30 - pcr_oi_360), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.65
+    },
+    {
+      "label": "OPT9_pcr_vol_term",
+      "expression": "group_rank(-(pcr_vol_30 - pcr_vol_360), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.60
+    },
+    {
+      "label": "OPT9_fwd_slope_mom",
+      "expression": "group_rank(ts_delta((forward_price_360 - forward_price_30) / close, 20), subindustry)",
+      "settings": {"decay": 5, "truncation": 0.08},
+      "priority": 0.55
+    },
+    {
+      "label": "OPT9_be_slope_mom",
+      "expression": "group_rank(ts_delta((option_breakeven_360 - option_breakeven_30) / close, 20), subindustry)",
+      "settings": {"decay": 5, "truncation": 0.08},
+      "priority": 0.50
+    }
+  ]
+}

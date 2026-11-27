@@ -1,0 +1,65 @@
+{
+  "batch": "smallcap_20261126",
+  "hypothesis": "冷门域：TOP500 小宇宙（得分系数更高）+ 分析师修正，并叠加小市值 tilt（-rank(cap) 做多小盘）。BRAIN 无独立小市值 universe，小盘藏在 TOP3000 尾部，用 size 因子显式倾斜",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP500",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "SC_EPSREV21",
+      "expression": "rank(ts_rank(ts_delta(anl4_afv4_eps_mean, 21), 63))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.95
+    },
+    {
+      "label": "SC_EPSREV63",
+      "expression": "rank(ts_rank(ts_delta(anl4_afv4_eps_mean, 63), 126))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.93
+    },
+    {
+      "label": "SC_CASHQUAL",
+      "expression": "rank(ts_rank(cashflow_op / operating_income, 252))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.91
+    },
+    {
+      "label": "SC_RATINGREV",
+      "expression": "rank(ts_mean(ts_delta(vec_avg(anl4_eaz2lrec_ratingvalue), 84), 20))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.87
+    },
+    {
+      "label": "SC_EPSREV_SIZE",
+      "expression": "rank(ts_rank(ts_delta(anl4_afv4_eps_mean, 21), 63)) - 0.5 * rank(cap)",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.85
+    },
+    {
+      "label": "SC_CASHQUAL_SIZE",
+      "expression": "rank(ts_rank(cashflow_op / operating_income, 252)) - 0.5 * rank(cap)",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.83
+    },
+    {
+      "label": "SC_SIZEONLY",
+      "expression": "-rank(ts_rank(cap, 252))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.80
+    },
+    {
+      "label": "SC_EPSREV_CASHQ",
+      "expression": "rank(ts_rank(ts_delta(anl4_afv4_eps_mean, 21), 63)) + 0.5 * rank(ts_rank(cashflow_op / operating_income, 252))",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.78
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "batch": "delay23_20261127",
+  "hypothesis": "delay-2/delay-3 延迟扫描 + SUBINDUSTRY 四腿骨架。所有 24 条已提交都是 delay-1，这是全新延迟维度，可能天然低相关",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "neutralization": "SUBINDUSTRY",
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "D2_FwdEP_Turn",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + rank(ts_rank(sales / assets, 126))",
+      "settings": {"delay": 2, "decay": 3},
+      "priority": 0.95
+    },
+    {
+      "label": "D3_FwdEP_Turn",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + rank(ts_rank(sales / assets, 126))",
+      "settings": {"delay": 3, "decay": 3},
+      "priority": 0.93
+    },
+    {
+      "label": "D2_FwdEP_News",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(mean_news_impact_projection, 5))",
+      "settings": {"delay": 2, "decay": 3},
+      "priority": 0.91
+    },
+    {
+      "label": "D3_FwdEP_News",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(mean_news_impact_projection, 5))",
+      "settings": {"delay": 3, "decay": 3},
+      "priority": 0.89
+    },
+    {
+      "label": "D2_Rev20_RevIVROE",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 2, "decay": 10, "truncation": 0.02},
+      "priority": 0.87
+    },
+    {
+      "label": "D3_Rev20_RevIVROE",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 3, "decay": 10, "truncation": 0.02},
+      "priority": 0.85
+    },
+    {
+      "label": "D2_FwdEP_d10",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + rank(ts_rank(sales / assets, 126))",
+      "settings": {"delay": 2, "decay": 10},
+      "priority": 0.83
+    },
+    {
+      "label": "D3_Ratings",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(rp_css_ratings, 5))",
+      "settings": {"delay": 3, "decay": 3},
+      "priority": 0.81
+    }
+  ]
+}

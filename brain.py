@@ -91,13 +91,20 @@ def login():
 def simulate(session, expr, **overrides):
     settings = dict(BASE_SETTINGS)
     settings.update({k: v for k, v in overrides.items() if v is not None})
-    resp = session.post(
-        f"{API}/simulations",
-        headers=HEADERS,
-        json={"type": "REGULAR", "settings": settings, "regular": expr},
-        timeout=60,
-    )
-    if resp.status_code != 201:
+    resp = None
+    for attempt in range(10):
+        resp = session.post(
+            f"{API}/simulations",
+            headers=HEADERS,
+            json={"type": "REGULAR", "settings": settings, "regular": expr},
+            timeout=60,
+        )
+        if resp.status_code != 429:
+            break
+        wait = min(max(float(resp.headers.get("Retry-After", 10)), 5), 60)
+        print(f"429 并发槽满，等待 {wait:.0f}s 后重试 ({attempt + 1}/10)", flush=True)
+        time.sleep(wait)
+    if resp is None or resp.status_code != 201:
         raise RuntimeError(f"模拟提交失败 {resp.status_code}: {resp.text[:500]}")
     sim_id = resp.headers["Location"].rstrip("/").split("/")[-1]
     retry_after = float(resp.headers.get("Retry-After", 5))
@@ -107,7 +114,13 @@ def simulate(session, expr, **overrides):
 def wait(session, sim_id, timeout=900):
     start = time.time()
     while time.time() - start < timeout:
-        data = session.get(f"{API}/simulations/{sim_id}", headers=HEADERS, timeout=60).json()
+        resp = session.get(f"{API}/simulations/{sim_id}", headers=HEADERS, timeout=60)
+        if resp.status_code == 429:
+            wait = min(max(float(resp.headers.get("Retry-After", 8)), 5), 60)
+            print(f"429 轮询限速，等待 {wait:.0f}s", flush=True)
+            time.sleep(wait)
+            continue
+        data = resp.json()
         status = data.get("status")
         if status == "COMPLETE":
             return data

@@ -1,0 +1,47 @@
+{
+  "batch": "rev5_boost_20261126",
+  "hypothesis": "强化 REVERSAL_5（S=1.13/F=0.62/T=37%/G5 PASS 4-5年）：winsorize 提 Fitness、ts_mean 平滑降换手、5+10日组合、vwap 替代、延长 decay",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 5,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "REV5_WIN",
+      "expression": "-group_rank(winsorize(ts_delta(close, 5) / close), subindustry)",
+      "settings": {"decay": 5, "truncation": 0.08},
+      "priority": 0.95
+    },
+    {
+      "label": "REV5_SM3",
+      "expression": "-group_rank(ts_mean(ts_delta(close, 5) / close, 3), subindustry)",
+      "settings": {"decay": 5, "truncation": 0.05},
+      "priority": 0.90
+    },
+    {
+      "label": "REV5_5p10",
+      "expression": "-group_rank(ts_delta(close, 5) / close, subindustry) - group_rank(ts_delta(close, 10) / close, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.85
+    },
+    {
+      "label": "REV5_VWAP",
+      "expression": "-group_rank(ts_delta(vwap, 5) / vwap, subindustry)",
+      "settings": {"decay": 5, "truncation": 0.05},
+      "priority": 0.80
+    },
+    {
+      "label": "REV5_DECAY10",
+      "expression": "-group_rank(ts_delta(close, 5) / close, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.75
+    }
+  ]
+}

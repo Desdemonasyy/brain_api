@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc4_20261127",
+  "hypothesis": "第三批发现 TOP200 下 MARKET 中性化碾压 SUBINDUSTRY（F1.36→2.64）。第四批在 MARKET 下优化：buzz 权重 1.0/1.2、decay 扫描、truncation、加周转腿、换 TOP500 池、反转版。目标 S≥2.5 且 self<0.7",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 3,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T4_BuzzW10",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 1.0 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "T4_BuzzW12",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 1.2 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "T4_d10",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 10},
+      "priority": 0.91
+    },
+    {
+      "label": "T4_d1",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 1},
+      "priority": 0.89
+    },
+    {
+      "label": "T4_Turn",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5)) + 0.5 * rank(ts_rank(sales / assets, 126))",
+      "settings": {},
+      "priority": 0.87
+    },
+    {
+      "label": "T4_Trunc05",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"truncation": 0.05},
+      "priority": 0.85
+    },
+    {
+      "label": "T4_Top500",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"universe": "TOP500"},
+      "priority": 0.83
+    },
+    {
+      "label": "T4_RevBuzz",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 10},
+      "priority": 0.81
+    }
+  ]
+}

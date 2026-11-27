@@ -1,0 +1,53 @@
+{
+  "batch": "liquidity_20261126",
+  "hypothesis": "pv1 量价/流动性异象：短期反转、低换手溢价、低波动异象、成交量异常反转、52周位置，与现有价值/质量/IV/新闻池子机制正交，全部用无量纲比值规避单位冲突",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "REVERSAL_5",
+      "expression": "-group_rank(ts_delta(close, 5) / close, subindustry)",
+      "settings": {"decay": 5, "truncation": 0.05},
+      "priority": 0.95
+    },
+    {
+      "label": "REVERSAL_10",
+      "expression": "-group_rank(ts_delta(close, 10) / close, subindustry)",
+      "settings": {"decay": 5, "truncation": 0.05},
+      "priority": 0.90
+    },
+    {
+      "label": "LOW_TURNOVER",
+      "expression": "-group_rank(ts_mean(volume / sharesout, 20), subindustry)",
+      "settings": {"decay": 20, "truncation": 0.05},
+      "priority": 0.90
+    },
+    {
+      "label": "LOW_VOL",
+      "expression": "-group_rank(ts_std_dev(returns, 20), subindustry)",
+      "settings": {"decay": 20, "truncation": 0.08},
+      "priority": 0.85
+    },
+    {
+      "label": "VOL_ABNORM",
+      "expression": "-group_rank(volume / ts_mean(volume, 60), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.80
+    },
+    {
+      "label": "PRICE_POS",
+      "expression": "-group_rank(ts_rank(close, 252), subindustry)",
+      "settings": {"decay": 20, "truncation": 0.05},
+      "priority": 0.75
+    }
+  ]
+}

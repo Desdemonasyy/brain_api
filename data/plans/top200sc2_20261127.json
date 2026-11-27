@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc2_20261127",
+  "hypothesis": "TOP200+社媒声量首战告捷（FwdEP_SC12_Buzz S1.89/F1.49/self0.47 干净独立）。第二批沿该方向深化：decay 扫描、buzz 权重扫描、聚合方式替换、buzz+sentiment 双腿、反转版变体",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 3,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "S2_FwdEP_Buzz_d10",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 10},
+      "priority": 0.95
+    },
+    {
+      "label": "S2_FwdEP_Buzz_w3",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.3 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "S2_FwdEP_Buzz_w8",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.91
+    },
+    {
+      "label": "S2_FwdEP_BuzzZ60",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_zscore(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.89
+    },
+    {
+      "label": "S2_FwdEP_BuzzR60",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_rank(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.87
+    },
+    {
+      "label": "S2_FwdEP_DualSM",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(scl12_buzz, 5)) + 0.4 * rank(ts_backfill(scl12_sentiment, 5))",
+      "settings": {},
+      "priority": 0.85
+    },
+    {
+      "label": "S2_Rev_Buzz_d5",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 5, "truncation": 0.02},
+      "priority": 0.83
+    },
+    {
+      "label": "S2_FwdEP_BuzzNegSent",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_backfill(scl12_buzz, 5)) - 0.3 * rank(ts_backfill(scl12_sentiment, 5))",
+      "settings": {},
+      "priority": 0.81
+    }
+  ]
+}

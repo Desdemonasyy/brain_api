@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc6_20261127",
+  "hypothesis": "参数空间完整扫描收尾。已扫：decay 1/3/10/15/20/30、buzz 5/20、ROE 63|126、FwdEP 63|126、IVHV 120。本批补齐：IVHV 60/90/180、ROE 42/84/252、FwdEP 252、buzz 60。目标确认 ROE63 是否全局最优、IVHV 窗口是否还有提升",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T6_IVHV60",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.96
+    },
+    {
+      "label": "T6_IVHV90",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_90 / parkinson_volatility_90, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "T6_IVHV180",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_180 / parkinson_volatility_180, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.94
+    },
+    {
+      "label": "T6_ROE42",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 42)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "T6_ROE84",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 84)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.92
+    },
+    {
+      "label": "T6_ROE252",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 252)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.91
+    },
+    {
+      "label": "T6_FwdEP252",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.90
+    },
+    {
+      "label": "T6_Buzz60",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.89
+    }
+  ]
+}

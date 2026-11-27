@@ -1,0 +1,65 @@
+{
+  "batch": "excel_20261126",
+  "hypothesis": "在去核心化基座（反转+IV/HV+ROE）上叠加正交基本面腿（杠杆/资产周转/现金流质量/股本增长），用多腿分散同时抬 Sharpe 并压 self-corr，目标 EXCELLENT（S≥1.8 且 F≥1.5，self<0.7）",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "EXCEL_LEV",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(liabilities / assets)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "EXCEL_TURN",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(sales / assets)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.93
+    },
+    {
+      "label": "EXCEL_CF",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_rank(cashflow_op / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.91
+    },
+    {
+      "label": "EXCEL_EQG",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_rank(ts_delta(equity, 63), 175))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.89
+    },
+    {
+      "label": "EXCEL_LEV_TURN",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.3 * rank(liabilities / assets) + 0.3 * rank(sales / assets)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.87
+    },
+    {
+      "label": "EXCEL_LEV_CF",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.3 * rank(liabilities / assets) + 0.3 * rank(ts_rank(cashflow_op / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.85
+    },
+    {
+      "label": "EXCEL_3LEG",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.25 * rank(liabilities / assets) + 0.25 * rank(sales / assets) + 0.25 * rank(ts_rank(cashflow_op / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.83
+    },
+    {
+      "label": "EXCEL_4LEG",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.2 * rank(liabilities / assets) + 0.2 * rank(sales / assets) + 0.2 * rank(ts_rank(cashflow_op / equity, 126)) + 0.2 * rank(ts_rank(ts_delta(equity, 63), 175))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    }
+  ]
+}

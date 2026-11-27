@@ -1,0 +1,89 @@
+{
+  "batch": "newdata_20261126",
+  "hypothesis": "新数据源：model16 Fundamental Scores、model51 Systematic Risk、fundamental2 Report Footnotes",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.08,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "M16_value",
+      "expression": "group_rank(ts_backfill(fscore_value, 120), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.95
+    },
+    {
+      "label": "M16_quality",
+      "expression": "group_rank(ts_backfill(fscore_quality, 120), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.90
+    },
+    {
+      "label": "M16_profitability",
+      "expression": "group_rank(ts_backfill(fscore_profitability, 120), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.85
+    },
+    {
+      "label": "M16_total",
+      "expression": "group_rank(ts_backfill(fscore_total, 120), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.80
+    },
+    {
+      "label": "M16_relval_deriv",
+      "expression": "group_rank(ts_mean(relative_valuation_rank_derivative, 20), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.75
+    },
+    {
+      "label": "M16_growth_deriv",
+      "expression": "group_rank(ts_mean(growth_potential_rank_derivative, 20), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.70
+    },
+    {
+      "label": "M16_cashflow_deriv",
+      "expression": "group_rank(ts_mean(cashflow_efficiency_rank_derivative, 20), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.65
+    },
+    {
+      "label": "M16_earncert_deriv",
+      "expression": "group_rank(ts_mean(earnings_certainty_rank_derivative, 20), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.60
+    },
+    {
+      "label": "M51_low_beta",
+      "expression": "group_rank(-beta_last_90_days_spy, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.55
+    },
+    {
+      "label": "M51_low_idio",
+      "expression": "group_rank(-unsystematic_risk_last_90_days, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.50
+    },
+    {
+      "label": "F2_sbc",
+      "expression": "group_rank(-ts_backfill(allocated_sbp_expense_total, 120) / assets, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.45
+    },
+    {
+      "label": "F2_deftax",
+      "expression": "group_rank(-ts_backfill(annual_deferred_income_tax_expense, 120) / assets, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.40
+    }
+  ]
+}

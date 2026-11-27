@@ -1,0 +1,47 @@
+{
+  "batch": "revcore_20261126",
+  "hypothesis": "去核心化：强核心 Rev5_FwdEP_IV_ROE_Mkt 已含 5日反转腿，去掉 EPS yield（相关性主源）并提权反转腿，观察 self-corr 能否降到 0.7 以下同时保住 S≥1.25",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "REVCORE_NoEPS_Rev2",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "REVCORE_NoEPS_Rev1",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.90
+    },
+    {
+      "label": "REVCORE_NoEPS_Rev3",
+      "expression": "-3.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.85
+    },
+    {
+      "label": "REVCORE_GrpRev2",
+      "expression": "-2.0 * group_rank(ts_delta(close, 5) / close, subindustry) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    },
+    {
+      "label": "REVCORE_MinCore",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.75
+    }
+  ]
+}

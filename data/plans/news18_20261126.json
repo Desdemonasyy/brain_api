@@ -1,0 +1,77 @@
+{
+  "batch": "news18_20261126",
+  "hypothesis": "新数据源 news18 事件情绪：情绪水平、情绪变化、情绪离散度、事件/财报/并购/社论情绪、新闻影响力与新颖度",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.08,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "NEWS_sent_level",
+      "expression": "group_rank(ts_mean(mean_composite_sentiment_score, 5), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.95
+    },
+    {
+      "label": "NEWS_sent_change",
+      "expression": "group_rank(ts_mean(mean_composite_sentiment_score, 5) - ts_mean(mean_composite_sentiment_score, 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.90
+    },
+    {
+      "label": "NEWS_sent_disp",
+      "expression": "group_rank(-ts_std_dev(mean_composite_sentiment_score, 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.85
+    },
+    {
+      "label": "NEWS_event_sent",
+      "expression": "group_rank(ts_mean(mean_event_sentiment_score, 5), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.80
+    },
+    {
+      "label": "NEWS_earnings_sent",
+      "expression": "group_rank(ts_mean(mean_earnings_evaluation_sentiment, 20), subindustry)",
+      "settings": {"decay": 20, "truncation": 0.08},
+      "priority": 0.75
+    },
+    {
+      "label": "NEWS_mna_sent",
+      "expression": "group_rank(ts_mean(mean_merger_acquisition_sentiment, 20), subindustry)",
+      "settings": {"decay": 20, "truncation": 0.08},
+      "priority": 0.70
+    },
+    {
+      "label": "NEWS_editorial_sent",
+      "expression": "group_rank(ts_mean(mean_editorial_commentary_sentiment, 10), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.65
+    },
+    {
+      "label": "NEWS_impact",
+      "expression": "group_rank(ts_mean(mean_news_impact_projection, 5), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.60
+    },
+    {
+      "label": "NEWS_novelty",
+      "expression": "group_rank(ts_mean(mean_event_novelty_score, 5), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.55
+    },
+    {
+      "label": "NEWS_relevance_sent",
+      "expression": "group_rank(ts_mean(mean_composite_sentiment_score * mean_entity_relevance_score, 10), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.50
+    }
+  ]
+}

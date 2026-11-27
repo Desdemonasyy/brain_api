@@ -1,0 +1,53 @@
+{
+  "batch": "pead_20261126",
+  "hypothesis": "盈利/营收超预期与分析师修正动量：利用 actual vs previous estimate 的 surprise，以及 current vs previous estimate 的 revision，捕捉 PEAD，与现有价值/质量/IV/新闻池子机制正交",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 20,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "PEAD_EPS",
+      "expression": "group_rank((actual_eps_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) / close, subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.95
+    },
+    {
+      "label": "PEAD_EPS_60",
+      "expression": "group_rank(ts_mean(ts_backfill((actual_eps_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) / close, 60), 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.90
+    },
+    {
+      "label": "REV_EPS",
+      "expression": "group_rank((vec_avg(anl4_fs_basic_splt_v4_nd_eps_estimate) - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) / (abs(vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) + 0.01), subindustry)",
+      "settings": {"decay": 10},
+      "priority": 0.90
+    },
+    {
+      "label": "REV_EPS_60",
+      "expression": "group_rank(ts_mean(ts_backfill((vec_avg(anl4_fs_basic_splt_v4_nd_eps_estimate) - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) / (abs(vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) + 0.01), 60), 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.85
+    },
+    {
+      "label": "PEAD_SALES",
+      "expression": "group_rank((actual_sales_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_sales_previosestimate)) / (abs(vec_avg(anl4_fs_basic_splt_v4_nd_sales_previosestimate)) + 1), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.80
+    },
+    {
+      "label": "SURP_COMBO",
+      "expression": "group_rank((actual_eps_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) / close + 0.5 * (vec_avg(anl4_fs_basic_splt_v4_nd_eps_estimate) - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) / (abs(vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate)) + 0.01), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.75
+    }
+  ]
+}

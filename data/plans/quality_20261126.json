@@ -1,0 +1,53 @@
+{
+  "batch": "quality_20261126",
+  "hypothesis": "毛利率/ROA/现金回报质量复合：gross profitability、ROA、CFO/assets、低杠杆与流动性，全部用 group_rank 分数相加，规避单位冲突；与现有 ROE/EBIT 价值池子机制不同",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 20,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "GROSS_PROF",
+      "expression": "group_rank(ts_backfill((sales - cogs) / assets, 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.95
+    },
+    {
+      "label": "ROA_QUAL",
+      "expression": "group_rank(ts_backfill(return_assets, 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.90
+    },
+    {
+      "label": "CFO_ROA",
+      "expression": "group_rank(ts_backfill(cashflow_op / assets, 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.90
+    },
+    {
+      "label": "QUAL_COMP",
+      "expression": "group_rank(ts_backfill((sales - cogs) / assets, 60), subindustry) + group_rank(ts_backfill(return_assets, 60), subindustry) + group_rank(-equity / assets, subindustry) + group_rank(ts_backfill(cashflow_op / assets, 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.85
+    },
+    {
+      "label": "GROSS_GROWTH",
+      "expression": "group_rank(ts_delta(ts_backfill((sales - cogs) / assets, 60), 252), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.80
+    },
+    {
+      "label": "QUAL_LOWLEV",
+      "expression": "group_rank(ts_backfill((sales - cogs) / assets, 60), subindustry) + group_rank(-equity / assets, subindustry) + group_rank(current_ratio, subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.75
+    }
+  ]
+}

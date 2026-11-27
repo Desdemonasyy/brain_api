@@ -1,0 +1,35 @@
+{
+  "batch": "top200sc9_20261127",
+  "hypothesis": "T8_Triple_d15 (decay15) S2.65/F3.61 超过 d10 的 S2.63/F3.57，且换手从 10.3% 降到 8.3%、DD 从 7.2% 降到 6.4%。第四批四腿结构的 decay 扫描(10/15/20/30)呈平台状，本批在 Triple 结构上补测 d12/d18/d20，闭合 decay 维度并确认拐点",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T9_d12",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {"decay": 12},
+      "priority": 0.93
+    },
+    {
+      "label": "T9_d18",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {"decay": 18},
+      "priority": 0.92
+    },
+    {
+      "label": "T9_d20",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {"decay": 20},
+      "priority": 0.91
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc5_20261127",
+  "hypothesis": "确认 T4_d10（F3.01）是否局部最优。关键悬念：decay 3→10 使 F 从 2.64→3.01(+14%)，趋势向上，d15/d20/d30 可能更高。另扫从未测试的权重与窗口：IVHV 权重 1.5、ROE 权重 2.5、ROE 63、FwdEP 63、buzz 回填 20、IVHV 60",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T5_d15",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 15},
+      "priority": 0.95
+    },
+    {
+      "label": "T5_d20",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 20},
+      "priority": 0.94
+    },
+    {
+      "label": "T5_d30",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 30},
+      "priority": 0.92
+    },
+    {
+      "label": "T5_IVHVW15",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + 1.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.90
+    },
+    {
+      "label": "T5_ROEW25",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 2.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.88
+    },
+    {
+      "label": "T5_ROE63",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.86
+    },
+    {
+      "label": "T5_FwdEP63",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 63)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.84
+    },
+    {
+      "label": "T5_Buzz20",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 20))",
+      "settings": {},
+      "priority": 0.82
+    }
+  ]
+}

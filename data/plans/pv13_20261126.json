@@ -1,0 +1,71 @@
+{
+  "batch": "pv13_20261126",
+  "hypothesis": "新数据源 pv13 产业链关系：客户/伙伴/竞争对手收益溢出、关系广度、图谱中心度",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 4,
+    "truncation": 0.08,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "PV13_cust_mom",
+      "expression": "group_rank(ts_mean(ts_backfill(rel_ret_cust, 120), 5), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.95
+    },
+    {
+      "label": "PV13_part_mom",
+      "expression": "group_rank(ts_mean(ts_backfill(rel_ret_part, 60), 5), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.90
+    },
+    {
+      "label": "PV13_comp_mom",
+      "expression": "group_rank(ts_mean(ts_backfill(rel_ret_comp, 60), 5), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.85
+    },
+    {
+      "label": "PV13_all_mom",
+      "expression": "group_rank(ts_mean(ts_backfill(rel_ret_all, 20), 5), subindustry)",
+      "settings": {"decay": 4, "truncation": 0.08},
+      "priority": 0.80
+    },
+    {
+      "label": "PV13_breadth",
+      "expression": "group_rank(ts_delta(rel_num_all, 63), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.70
+    },
+    {
+      "label": "PV13_cust_breadth",
+      "expression": "group_rank(ts_delta(rel_num_cust, 63), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.65
+    },
+    {
+      "label": "PV13_cust_graph",
+      "expression": "group_rank(ts_backfill(pv13_ustomergraphrank_page_rank, 120), subindustry)",
+      "settings": {"decay": 20, "truncation": 0.08},
+      "priority": 0.60
+    },
+    {
+      "label": "PV13_comp_graph",
+      "expression": "group_rank(-ts_backfill(pv13_com_page_rank, 120), subindustry)",
+      "settings": {"decay": 20, "truncation": 0.08},
+      "priority": 0.55
+    },
+    {
+      "label": "PV13_cust_sign",
+      "expression": "group_rank(ts_mean(ts_backfill(pv13_custretsig_retsig, 120), 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.08},
+      "priority": 0.50
+    }
+  ]
+}

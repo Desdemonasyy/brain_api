@@ -1,0 +1,599 @@
+{
+  "source": "https://github.com/anweat/worldquantAlpha-dev/blob/main/docs/03_%E8%BF%90%E7%AE%97%E7%AC%A6%E5%AE%8C%E6%95%B4%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C.md",
+  "count": 66,
+  "categories": [
+    {
+      "name": "算术运算符",
+      "en": "Arithmetic",
+      "count": 15,
+      "operators": [
+        "add",
+        "subtract",
+        "multiply",
+        "divide",
+        "abs",
+        "log",
+        "sqrt",
+        "power",
+        "signed_power",
+        "sign",
+        "reverse",
+        "inverse",
+        "min",
+        "max",
+        "densify"
+      ]
+    },
+    {
+      "name": "逻辑运算符",
+      "en": "Logical",
+      "count": 11,
+      "operators": [
+        "and",
+        "or",
+        "not",
+        "if_else",
+        "equal",
+        "not_equal",
+        "greater",
+        "greater_equal",
+        "less",
+        "less_equal",
+        "is_nan"
+      ]
+    },
+    {
+      "name": "时间序列运算符",
+      "en": "Time Series",
+      "count": 24,
+      "operators": [
+        "ts_delay",
+        "ts_delta",
+        "ts_mean",
+        "ts_sum",
+        "ts_std_dev",
+        "ts_zscore",
+        "ts_rank",
+        "ts_corr",
+        "ts_covariance",
+        "ts_regression",
+        "ts_decay_linear",
+        "ts_product",
+        "ts_scale",
+        "ts_quantile",
+        "ts_arg_max",
+        "ts_arg_min",
+        "ts_av_diff",
+        "ts_backfill",
+        "ts_count_nans",
+        "ts_step",
+        "hump",
+        "kth_element",
+        "last_diff_value",
+        "days_from_last_change"
+      ]
+    },
+    {
+      "name": "截面运算符",
+      "en": "Cross Sectional",
+      "count": 6,
+      "operators": [
+        "rank",
+        "zscore",
+        "normalize",
+        "scale",
+        "winsorize",
+        "quantile"
+      ]
+    },
+    {
+      "name": "组别运算符",
+      "en": "Group",
+      "count": 6,
+      "operators": [
+        "group_rank",
+        "group_neutralize",
+        "group_zscore",
+        "group_scale",
+        "group_mean",
+        "group_backfill"
+      ]
+    },
+    {
+      "name": "向量运算符",
+      "en": "Vector",
+      "count": 2,
+      "operators": [
+        "vec_sum",
+        "vec_avg"
+      ]
+    },
+    {
+      "name": "变换运算符",
+      "en": "Transformational",
+      "count": 2,
+      "operators": [
+        "bucket",
+        "trade_when"
+      ]
+    }
+  ],
+  "operators": [
+    {
+      "name": "add",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "add(x, y, filter=false) 或 x + y",
+      "description": "逐元素加法。`filter=true` 时将 NaN 视为 0"
+    },
+    {
+      "name": "subtract",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "subtract(x, y, filter=false) 或 x - y",
+      "description": "逐元素减法。`filter=true` 时将 NaN 视为 0"
+    },
+    {
+      "name": "multiply",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "multiply(x, y, ..., filter=false) 或 x * y",
+      "description": "逐元素乘法。支持多个输入"
+    },
+    {
+      "name": "divide",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "divide(x, y) 或 x / y",
+      "description": "逐元素除法"
+    },
+    {
+      "name": "abs",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "abs(x)",
+      "description": "绝对值"
+    },
+    {
+      "name": "log",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "log(x)",
+      "description": "自然对数（常用于正值数据压缩）"
+    },
+    {
+      "name": "sqrt",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "sqrt(x)",
+      "description": "非负平方根，等价于 `power(x, 0.5)`"
+    },
+    {
+      "name": "power",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "power(x, y)",
+      "description": "x 的 y 次方"
+    },
+    {
+      "name": "signed_power",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "signed_power(x, y)",
+      "description": "保留 x 符号的幂运算（适用于有正负值的数据）"
+    },
+    {
+      "name": "sign",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "sign(x)",
+      "description": "符号函数：正→+1，负→-1，零→0，NaN→NaN"
+    },
+    {
+      "name": "reverse",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "reverse(x)",
+      "description": "取负，等价于 `-x`"
+    },
+    {
+      "name": "inverse",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "inverse(x)",
+      "description": "取倒数，等价于 `1/x`"
+    },
+    {
+      "name": "min",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "min(x, y, ...)",
+      "description": "逐元素最小值"
+    },
+    {
+      "name": "max",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "max(x, y, ...)",
+      "description": "逐元素最大值"
+    },
+    {
+      "name": "densify",
+      "category": "算术运算符",
+      "category_en": "Arithmetic",
+      "syntax": "densify(x)",
+      "description": "移除稀疏结构，将稀疏数据转为密集表示"
+    },
+    {
+      "name": "and",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "and(x, y)",
+      "description": "逻辑与：两者均非零且非 NaN 时返回 1"
+    },
+    {
+      "name": "or",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "or(x, y)",
+      "description": "逻辑或：任一非零且非 NaN 时返回 1"
+    },
+    {
+      "name": "not",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "not(x)",
+      "description": "逻辑非：x=0 或 NaN 时返回 1，否则返回 0"
+    },
+    {
+      "name": "if_else",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "if_else(cond, x, y)",
+      "description": "条件选择：cond 非零时取 x，否则取 y"
+    },
+    {
+      "name": "equal",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "x == y",
+      "description": "等于：相等返回 1，否则返回 0"
+    },
+    {
+      "name": "not_equal",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "x != y",
+      "description": "不等于"
+    },
+    {
+      "name": "greater",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "x > y",
+      "description": "大于"
+    },
+    {
+      "name": "greater_equal",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "x >= y",
+      "description": "大于等于"
+    },
+    {
+      "name": "less",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "x < y",
+      "description": "小于"
+    },
+    {
+      "name": "less_equal",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "x <= y",
+      "description": "小于等于"
+    },
+    {
+      "name": "is_nan",
+      "category": "逻辑运算符",
+      "category_en": "Logical",
+      "syntax": "is_nan(x)",
+      "description": "检查是否为 NaN：是则返回 1，否则返回 0"
+    },
+    {
+      "name": "ts_delay",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_delay(x, d)",
+      "description": "d 天前的值（时间延迟）"
+    },
+    {
+      "name": "ts_delta",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_delta(x, d)",
+      "description": "今日值 - d 天前的值（差分）"
+    },
+    {
+      "name": "ts_mean",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_mean(x, d)",
+      "description": "最近 d 天均值（移动平均）"
+    },
+    {
+      "name": "ts_sum",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_sum(x, d)",
+      "description": "最近 d 天求和"
+    },
+    {
+      "name": "ts_std_dev",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_std_dev(x, d)",
+      "description": "最近 d 天标准差（波动率）"
+    },
+    {
+      "name": "ts_zscore",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_zscore(x, d)",
+      "description": "最近 d 天 Z-score 标准化"
+    },
+    {
+      "name": "ts_rank",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_rank(x, d, constant=0)",
+      "description": "当前值在最近 d 天中的排名 ∈ (0,1)"
+    },
+    {
+      "name": "ts_corr",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_corr(x, y, d)",
+      "description": "最近 d 天 x 与 y 的相关系数"
+    },
+    {
+      "name": "ts_covariance",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_covariance(y, x, d)",
+      "description": "最近 d 天协方差"
+    },
+    {
+      "name": "ts_regression",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_regression(y, x, d, lag=0, rettype=0)",
+      "description": "线性回归（rettype: 0=β, 1=α, 2=残差, 3=预测, 4=R²）"
+    },
+    {
+      "name": "ts_decay_linear",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_decay_linear(x, d, dense=false)",
+      "description": "线性衰减加权均值（近期权重大）"
+    },
+    {
+      "name": "ts_product",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_product(x, d)",
+      "description": "最近 d 天乘积（适用于复利计算）"
+    },
+    {
+      "name": "ts_scale",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_scale(x, d, constant=0)",
+      "description": "时间序列缩放，使最大绝对值为指定值"
+    },
+    {
+      "name": "ts_quantile",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_quantile(x, d, driver=\"gaussian\")",
+      "description": "最近 d 天的分位数排名"
+    },
+    {
+      "name": "ts_arg_max",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_arg_max(x, d)",
+      "description": "最近 d 天最大值所在的时间位置（天数）"
+    },
+    {
+      "name": "ts_arg_min",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_arg_min(x, d)",
+      "description": "最近 d 天最小值所在的时间位置（天数）"
+    },
+    {
+      "name": "ts_av_diff",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_av_diff(x, d)",
+      "description": "当前值与最近 d 天均值的差"
+    },
+    {
+      "name": "ts_backfill",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_backfill(x, lookback=d, k=1)",
+      "description": "向前回溯填充 NaN（最多 d 天）"
+    },
+    {
+      "name": "ts_count_nans",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_count_nans(x, d)",
+      "description": "最近 d 天中 NaN 的数量"
+    },
+    {
+      "name": "ts_step",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "ts_step(1)",
+      "description": "生成时间步序列（第 1 天→1，第 2 天→2，...）"
+    },
+    {
+      "name": "hump",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "hump(x, hump=0.01)",
+      "description": "忽略小于阈值的变化（防止过度交易）"
+    },
+    {
+      "name": "kth_element",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "kth_element(x, d, k, ignore=\"NaN\")",
+      "description": "最近 d 天中第 k 小的值"
+    },
+    {
+      "name": "last_diff_value",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "last_diff_value(x, d)",
+      "description": "最近 d 天内最后一次与当前值不同的值"
+    },
+    {
+      "name": "days_from_last_change",
+      "category": "时间序列运算符",
+      "category_en": "Time Series",
+      "syntax": "days_from_last_change(x)",
+      "description": "距最近一次变化的天数"
+    },
+    {
+      "name": "rank",
+      "category": "截面运算符",
+      "category_en": "Cross Sectional",
+      "syntax": "rank(x, rate=2)",
+      "description": "截面排名，结果均匀分布在 (0, 1)。rate 控制 NaN 处理"
+    },
+    {
+      "name": "zscore",
+      "category": "截面运算符",
+      "category_en": "Cross Sectional",
+      "syntax": "zscore(x)",
+      "description": "截面 Z-score：`(x - mean) / std`"
+    },
+    {
+      "name": "normalize",
+      "category": "截面运算符",
+      "category_en": "Cross Sectional",
+      "syntax": "normalize(x, useStd=false, limit=0.0)",
+      "description": "截面归一化：绝对值之和 = 1"
+    },
+    {
+      "name": "scale",
+      "category": "截面运算符",
+      "category_en": "Cross Sectional",
+      "syntax": "scale(x, scale=1, longscale=1, shortscale=1)",
+      "description": "截面缩放：绝对值之和 = scale"
+    },
+    {
+      "name": "winsorize",
+      "category": "截面运算符",
+      "category_en": "Cross Sectional",
+      "syntax": "winsorize(x, std=4)",
+      "description": "截尾：将极端值截断至 ±std 倍标准差"
+    },
+    {
+      "name": "quantile",
+      "category": "截面运算符",
+      "category_en": "Cross Sectional",
+      "syntax": "quantile(x, driver=\"gaussian\", sigma=1.0)",
+      "description": "截面分位数排名，输出满足指定分布"
+    },
+    {
+      "name": "group_rank",
+      "category": "组别运算符",
+      "category_en": "Group",
+      "syntax": "group_rank(x, group)",
+      "description": "组内排名"
+    },
+    {
+      "name": "group_neutralize",
+      "category": "组别运算符",
+      "category_en": "Group",
+      "syntax": "group_neutralize(x, group)",
+      "description": "减去组内均值（行业中性化）"
+    },
+    {
+      "name": "group_zscore",
+      "category": "组别运算符",
+      "category_en": "Group",
+      "syntax": "group_zscore(x, group)",
+      "description": "组内 Z-score"
+    },
+    {
+      "name": "group_scale",
+      "category": "组别运算符",
+      "category_en": "Group",
+      "syntax": "group_scale(x, group)",
+      "description": "组内缩放"
+    },
+    {
+      "name": "group_mean",
+      "category": "组别运算符",
+      "category_en": "Group",
+      "syntax": "group_mean(x, weight, group)",
+      "description": "组内加权均值（`weight` 可为 1）"
+    },
+    {
+      "name": "group_backfill",
+      "category": "组别运算符",
+      "category_en": "Group",
+      "syntax": "group_backfill(x, group, d, std=4.0)",
+      "description": "用组内值填充 NaN（最多回溯 d 天）"
+    },
+    {
+      "name": "vec_sum",
+      "category": "向量运算符",
+      "category_en": "Vector",
+      "syntax": "vec_sum(x)",
+      "description": "将多字段逐元素求和"
+    },
+    {
+      "name": "vec_avg",
+      "category": "向量运算符",
+      "category_en": "Vector",
+      "syntax": "vec_avg(x)",
+      "description": "将多字段逐元素求平均"
+    },
+    {
+      "name": "bucket",
+      "category": "变换运算符",
+      "category_en": "Transformational",
+      "syntax": "bucket(rank(x), range=\"0,1,0.1\", skipBoth=False, NaNGroup=False)",
+      "description": "将排名值分入离散化桶（bins）"
+    },
+    {
+      "name": "trade_when",
+      "category": "变换运算符",
+      "category_en": "Transformational",
+      "syntax": "trade_when(x, cond, delay=1)",
+      "description": "仅当 cond 为 True 时用 x 更新持仓，否则保持上一持仓"
+    }
+  ],
+  "platform_forbidden": [
+    {
+      "name": "ts_max",
+      "reason": "平台报 unknown operator"
+    },
+    {
+      "name": "ts_min",
+      "reason": "平台报 unknown operator"
+    },
+    {
+      "name": "ts_skewness",
+      "reason": "平台报 unknown operator"
+    }
+  ]
+}

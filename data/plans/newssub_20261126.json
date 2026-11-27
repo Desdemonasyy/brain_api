@@ -1,0 +1,65 @@
+{
+  "batch": "news_subind_20261126",
+  "hypothesis": "SUBINDUSTRY 放大器 + news18/socialmedia12 情绪腿。之前 news 腿在 MARKET 中性化下单腿 S≈0.4 很弱、配去核心骨架 99% 同质。本轮换 SUBINDUSTRY 中性化 + news 腿，看能否独立成新根信号或配骨架成独立四腿",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "NEWS_Impact",
+      "expression": "rank(ts_mean(mean_news_impact_projection, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "NEWS_Sentiment",
+      "expression": "rank(ts_mean(mean_equity_sentiment_score, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.93
+    },
+    {
+      "label": "SCL_Buzz",
+      "expression": "rank(ts_mean(scl12_buzz, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.91
+    },
+    {
+      "label": "SCL_Sent",
+      "expression": "rank(ts_mean(scl12_sentiment, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.89
+    },
+    {
+      "label": "SUB_Rev2_NEWS",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_mean(mean_news_impact_projection, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.86
+    },
+    {
+      "label": "SUB_Rev2_SCL",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_mean(scl12_buzz, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.84
+    },
+    {
+      "label": "SUB_FwdEP_NEWS",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_mean(mean_news_impact_projection, 20))",
+      "settings": {"decay": 3, "truncation": 0.01},
+      "priority": 0.82
+    },
+    {
+      "label": "SUB_Rev2_NEG_NEWS",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(ts_mean(mean_news_impact_projection, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc3_20261127",
+  "hypothesis": "基于第二批最优（buzz 权重 0.8 → S1.94/self0.46）提 Sharpe。诊断 2020 是短板 S=0.24（疫情强动量年）。方向：①动量腿补 2020 ②周转腿 ③抬 ROE/IVHV 权重 ④中性化切换 ⑤轻反转 ⑥六腿全骨架",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 3,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T3b_Mom126",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5)) + 0.5 * rank(ts_rank(returns, 126))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "T3b_Turn",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5)) + 0.5 * rank(ts_rank(sales / assets, 126))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "T3b_ROE25",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 2.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.91
+    },
+    {
+      "label": "T3b_IVHV15",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + 1.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.89
+    },
+    {
+      "label": "T3b_Mkt",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"neutralization": "MARKET"},
+      "priority": 0.87
+    },
+    {
+      "label": "T3b_Ind",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"neutralization": "INDUSTRY"},
+      "priority": 0.85
+    },
+    {
+      "label": "T3b_Rev06",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5)) - 0.6 * rank(ts_rank(returns, 5))",
+      "settings": {},
+      "priority": 0.83
+    },
+    {
+      "label": "T3b_Six",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.8 * rank(ts_backfill(scl12_buzz, 5)) + 0.5 * rank(ts_rank(sales / assets, 126)) + 0.5 * rank(ts_rank(returns, 126))",
+      "settings": {},
+      "priority": 0.81
+    }
+  ]
+}

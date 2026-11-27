@@ -1,0 +1,53 @@
+{
+  "batch": "skew_20261126",
+  "hypothesis": "第二类机制：期权偏斜（崩盘保险需求）与分析师分歧/覆盖（预期一致性与注意力），与现有价值/动量/IV 水平池子正交",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "SKEW120_LOW",
+      "expression": "-group_rank(ts_backfill(implied_volatility_mean_skew_120, 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.95
+    },
+    {
+      "label": "SKEW30_LOW",
+      "expression": "-group_rank(ts_backfill(implied_volatility_mean_skew_30, 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.90
+    },
+    {
+      "label": "SKEW_TERM",
+      "expression": "-group_rank(ts_backfill(implied_volatility_mean_skew_30 - implied_volatility_mean_skew_360, 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.05},
+      "priority": 0.85
+    },
+    {
+      "label": "SKEW_CHG",
+      "expression": "-group_rank(ts_delta(ts_backfill(implied_volatility_mean_skew_120, 20), 20), subindustry)",
+      "settings": {"decay": 5, "truncation": 0.05},
+      "priority": 0.80
+    },
+    {
+      "label": "EPS_DISP",
+      "expression": "-group_rank((anl4_afv4_eps_high - anl4_afv4_eps_low) / close, subindustry)",
+      "settings": {"decay": 20, "truncation": 0.05},
+      "priority": 0.75
+    },
+    {
+      "label": "EPS_COVER",
+      "expression": "-group_rank(anl4_afv4_eps_number, subindustry)",
+      "settings": {"decay": 20, "truncation": 0.05},
+      "priority": 0.70
+    }
+  ]
+}

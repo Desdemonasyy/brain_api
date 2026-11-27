@@ -1,0 +1,16 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+ROC5_mom,,,,,,ERROR
+ROC20_mom,,,,,,ERROR
+IMAX20_pos,xAlqr06W,0.49,0.21,0.1749,0.0327,LOW_SHARPE|LOW_FITNESS
+IMIN20_pos,j2VvY9WQ,0.51,0.23,0.1749,0.0342,LOW_SHARPE|LOW_FITNESS|LOW_SUB_UNIVERSE_SHARPE
+CORR20_vol,,,,,,ERROR
+CORR60_vol,,,,,,ERROR
+SUMD20_dist,,,,,,ERROR
+STD_VOL20,MPgOejVa,0.96,0.57,0.1166,0.0434,LOW_SHARPE|LOW_FITNESS|LOW_SUB_UNIVERSE_SHARPE
+RSV20_strength,,,,,,ERROR
+X1_cross_price,,,,,,ERROR
+X2_cross_price,,,,,,ERROR
+X3_cross_price,,,,,,ERROR
+X4_price_acc,,,,,,ERROR
+X5_price_acc,,,,,,ERROR
+X6_all_price,,,,,,ERROR

@@ -1,0 +1,63 @@
+# 多区配置：阈值 / 可用组合 / 每日队列权重
+# 平台实际可用组合以 /simulations/settings 或平台 UI 为准；这里只做预检提示。
+#
+# 【2026-11-27 实测】账号 YZ44381 只有 USA 可用：
+#   GLB/ASI/CHN/JPN/KOR/TWN/HKG/AMR/EUR 全部返回 "Region X is not available."
+#   非 USA 的 candidate 会直接 sim_error，不要重复提交。
+#   delay 仅支持 0/1（delay=2/3 返回 "is not a valid choice"）。
+defaults:
+  delay: 1
+  universe: TOP3000
+  neutralization: SUBINDUSTRY
+  min_sharpe: 1.25
+  min_fitness: 1.0
+  weight: 1.0
+
+regions:
+  USA:
+    universes: [TOP3000, TOP2000, TOP1000, TOP500, TOP200]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    min_sharpe: 1.25
+    min_fitness: 1.0
+    weight: 0.60
+  GLB:
+    universes: [TOP3000, TOP1000, TOP500]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.15
+  EUR:
+    universes: [TOP3000, TOP1000, TOP500]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.10
+  ASI:
+    universes: [TOP3000, TOP1000]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.05
+  CHN:
+    universes: [TOP3000, TOP1000]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.05
+  JPN:
+    universes: [TOP3000, TOP1000]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.05
+  KOR:
+    universes: [TOP3000, TOP1000]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.0
+  TWN:
+    universes: [TOP3000, TOP1000]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.0
+  HKG:
+    universes: [TOP3000, TOP1000]
+    delays: [0, 1]
+    neutralizations: [NONE, MARKET, SECTOR, INDUSTRY, SUBINDUSTRY]
+    weight: 0.0

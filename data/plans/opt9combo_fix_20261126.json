@@ -1,0 +1,53 @@
+{
+  "batch": "opt9combo_fix_20261126",
+  "hypothesis": "修复 COMBO_EPS_IV_OPT9 的 CONCENTRATED_WEIGHT：提高截断、winsorize、最终 rank、期权腿回填，保留 S/F/分年稳健性",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "OPT9C_T2",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * group_rank(ts_delta((option_breakeven_360 - option_breakeven_30) / close, 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "OPT9C_T4",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * group_rank(ts_delta((option_breakeven_360 - option_breakeven_30) / close, 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.04},
+      "priority": 0.90
+    },
+    {
+      "label": "OPT9C_W4",
+      "expression": "winsorize(rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * group_rank(ts_delta((option_breakeven_360 - option_breakeven_30) / close, 20), subindustry), std=4)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.85
+    },
+    {
+      "label": "OPT9C_Rank",
+      "expression": "rank(rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * group_rank(ts_delta((option_breakeven_360 - option_breakeven_30) / close, 20), subindustry))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    },
+    {
+      "label": "OPT9C_BF",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * group_rank(ts_delta(ts_backfill((option_breakeven_360 - option_breakeven_30) / close, 20), 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.75
+    },
+    {
+      "label": "OPT9C_BFRank",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_delta(ts_backfill((option_breakeven_360 - option_breakeven_30) / close, 20), 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.70
+    }
+  ]
+}

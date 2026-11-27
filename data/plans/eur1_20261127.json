@@ -1,0 +1,65 @@
+{
+  "batch": "eur1_20261127",
+  "hypothesis": "EUR 区域首次探索。24 条已提交全是 USA，EUR 是全新区域维度，天然低相关（不同股票池/不同市场结构）。用已验证的骨架迁移：反转+IVHV+ROE 四腿、纯 pv1 字段兜底",
+  "defaults": {
+    "region": "EUR",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "EUR_R20_ROE",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "EUR_R20_IVHV_ROE",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "EUR_R20_Turn",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_rank(sales / assets, 126))",
+      "settings": {},
+      "priority": 0.91
+    },
+    {
+      "label": "EUR_R20_CF",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_rank(cashflow_op / equity, 126))",
+      "settings": {},
+      "priority": 0.89
+    },
+    {
+      "label": "EUR_R20_Vol",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) - 0.5 * rank(ts_std_dev(returns, 20))",
+      "settings": {},
+      "priority": 0.87
+    },
+    {
+      "label": "EUR_R20_Size",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) - 0.5 * rank(cap)",
+      "settings": {},
+      "priority": 0.85
+    },
+    {
+      "label": "EUR_FwdEP_Quality",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + rank(ts_rank(sales / assets, 126))",
+      "settings": {"decay": 3, "truncation": 0.01},
+      "priority": 0.83
+    },
+    {
+      "label": "EUR_R20_Full",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_rank(sales / assets, 126))",
+      "settings": {},
+      "priority": 0.81
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+P1_ts_corr,akR6G5bw,-0.95,-0.56,0.15,-0.0515,LOW_SHARPE|LOW_FITNESS|LOW_SUB_UNIVERSE_SHARPE
+P2_ts_corr_returns,,,,,,"模拟出错: {'id': 'qpONYgcT4IcbngOgsELbwg', 'type': 'REGULAR', 'status': 'ERROR', 'message': 'Attempted t"
+P3_group_rank_volcov,3qGw2AxZ,0.93,0.5,0.1491,0.0434,LOW_SHARPE|LOW_FITNESS
+P4_simple_rank,,,,,,"模拟出错: {'id': '13Zy9YOZ4ZR9xPGCFhb7nX', 'type': 'REGULAR', 'status': 'ERROR', 'message': 'Attempted t"
+P5_simple_decay,,,,,,"模拟出错: {'id': 'NfcPg2sX56J9UT1dAt10If7', 'type': 'REGULAR', 'status': 'ERROR', 'message': 'Attempted "
+P6_price_decay,,,,,,"模拟出错: {'id': '1gYZmuczr56Icu4h1pVFjXQ', 'type': 'REGULAR', 'status': 'ERROR', 'message': 'Attempted "
+SV1_decay20,,,,,,模拟 2OScxn2vT4IF9C4oSjhLEAP 超时
+SV2_decay30,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+SV3_decay5,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+SV4_t005,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+SV5_t005_d20,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+SV6_decay40,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+SV7_decay60,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+PN1_rev5,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+PN2_volchg,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+PN3_vol_exp,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+PN4_3leg,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+PN4b_3leg_d30,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+PN4c_3leg_d10,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"

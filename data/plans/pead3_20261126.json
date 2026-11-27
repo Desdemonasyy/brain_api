@@ -1,0 +1,53 @@
+{
+  "batch": "pead3_20261126",
+  "hypothesis": "PEAD 同单位版：只用 EPS/销售自身的实际值、共识值与增长率，避免 actual 与 estimate 的跨单位相减；同时测试共识修正动量",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 20,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "PEAD_EPS",
+      "expression": "group_rank(actual_eps_value_quarterly - anl4_afv4_eps_mean, subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.95
+    },
+    {
+      "label": "PEAD_EPS_60",
+      "expression": "group_rank(ts_mean(ts_backfill(actual_eps_value_quarterly - anl4_afv4_eps_mean, 60), 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.90
+    },
+    {
+      "label": "REV_EPS_60",
+      "expression": "group_rank(ts_delta(anl4_afv4_eps_mean, 60), subindustry)",
+      "settings": {"decay": 10},
+      "priority": 0.90
+    },
+    {
+      "label": "EPS_GROWTH",
+      "expression": "group_rank(ts_delta(actual_eps_value_quarterly, 252), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.85
+    },
+    {
+      "label": "SALES_GROWTH",
+      "expression": "group_rank(ts_delta(actual_sales_value_quarterly, 252) / assets, subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.80
+    },
+    {
+      "label": "SURP_COMBO",
+      "expression": "group_rank(actual_eps_value_quarterly - anl4_afv4_eps_mean, subindustry) + 0.5 * group_rank(ts_delta(anl4_afv4_eps_mean, 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.75
+    }
+  ]
+}

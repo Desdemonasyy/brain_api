@@ -1,0 +1,47 @@
+{
+  "batch": "decor_20261126",
+  "hypothesis": "去核心化：拆掉 ROE/IV/EPS 中的一条，提高期权期限腿权重，目标 self-corr<0.7 且 S>=1.25",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "DECORE_NoROE_O1",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.0 * group_rank(ts_delta(ts_backfill((option_breakeven_360 - option_breakeven_30) / close, 20), 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "DECORE_NoROE_O2",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 2.0 * group_rank(ts_delta(ts_backfill((option_breakeven_360 - option_breakeven_30) / close, 20), 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.90
+    },
+    {
+      "label": "DECORE_NoROE_O4",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 4.0 * group_rank(ts_delta(ts_backfill((option_breakeven_360 - option_breakeven_30) / close, 20), 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.85
+    },
+    {
+      "label": "DECORE_NoIV_O2",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 2.0 * group_rank(ts_delta(ts_backfill((option_breakeven_360 - option_breakeven_30) / close, 20), 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    },
+    {
+      "label": "DECORE_NoEPS_O2",
+      "expression": "rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 2.0 * group_rank(ts_delta(ts_backfill((option_breakeven_360 - option_breakeven_30) / close, 20), 20), subindustry)",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.75
+    }
+  ]
+}

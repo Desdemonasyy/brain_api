@@ -1,0 +1,47 @@
+{
+  "batch": "top200sc10_val_20261127",
+  "hypothesis": "对最终冠军 legJOM22(T9_d18) 做提交前的多维度稳健性验证：参数邻域(d15/18/20)已验证为平台期(F3.61/3.62/3.61)。本批在 d18 最优参数下更换 4 个正交维度(truncation/中性化/universe/权重扰动)，确认优势不依赖单一设定，避免过拟合式提交",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 18,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "V_trunc02",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {"truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "V_subind",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {"neutralization": "SUBINDUSTRY"},
+      "priority": 0.94
+    },
+    {
+      "label": "V_top1000",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {"universe": "TOP1000"},
+      "priority": 0.93
+    },
+    {
+      "label": "V_roe18",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.8 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.92
+    },
+    {
+      "label": "V_buzz10",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 1.0 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.91
+    }
+  ]
+}

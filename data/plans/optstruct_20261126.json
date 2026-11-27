@@ -1,0 +1,65 @@
+{
+  "batch": "optstruct_20261126",
+  "hypothesis": "去核心基座 + 纯期权结构腿（波动率偏斜 skew / 认沽认购比 PCR / 远期溢价 forward/close / 期限结构）。这些是曲面形状与期权持仓信号，与基座里的 IV/HV 水平比正交，作为第 4 腿抬 Sharpe 且不撞相关性",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "OPT_Skew",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(ts_backfill(implied_volatility_mean_skew_120, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "OPT_Pcr",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(ts_mean(pcr_oi_270, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.93
+    },
+    {
+      "label": "OPT_Fwd",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(forward_price_120 / close, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.91
+    },
+    {
+      "label": "OPT_Term",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(ts_backfill(implied_volatility_call_30 / implied_volatility_call_120, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.89
+    },
+    {
+      "label": "OPT_Skew_Pcr",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.3 * rank(ts_backfill(implied_volatility_mean_skew_120, 20)) - 0.3 * rank(ts_mean(pcr_oi_270, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.87
+    },
+    {
+      "label": "OPT_Skew_Fwd",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.3 * rank(ts_backfill(implied_volatility_mean_skew_120, 20)) + 0.3 * rank(ts_backfill(forward_price_120 / close, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.85
+    },
+    {
+      "label": "OPT_SkewPos",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(implied_volatility_mean_skew_120, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.83
+    },
+    {
+      "label": "OPT_Rev1_Skew",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(ts_backfill(implied_volatility_mean_skew_120, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    }
+  ]
+}

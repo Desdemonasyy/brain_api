@@ -1,0 +1,65 @@
+{
+  "batch": "sentiment_20261126",
+  "hypothesis": "去核心基座 + 情绪腿（socialmedia12 的 scl12_buzz/scl12_sentiment，MATRIX 用 ts_mean/ts_backfill/ts_rank 降维，避开已证伪的 ts_std_dev）。情绪与价格/基本面正交，作为第 4 腿抬 Sharpe 且不撞相关性",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "SENT_Buzz",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_mean(scl12_buzz, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "SENT_BuzzNeg",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(ts_mean(scl12_buzz, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.93
+    },
+    {
+      "label": "SENT_Sent",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(scl12_sentiment, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.91
+    },
+    {
+      "label": "SENT_SentNeg",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.4 * rank(ts_backfill(scl12_sentiment, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.89
+    },
+    {
+      "label": "SENT_BuzzRank",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_rank(scl12_buzz, 60))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.87
+    },
+    {
+      "label": "SENT_SentRank",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_rank(scl12_sentiment, 60))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.85
+    },
+    {
+      "label": "SENT_Buzz_Sent",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.3 * rank(ts_mean(scl12_buzz, 20)) + 0.3 * rank(ts_backfill(scl12_sentiment, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.83
+    },
+    {
+      "label": "SENT_Rev1_Buzz",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_mean(scl12_buzz, 20))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    }
+  ]
+}

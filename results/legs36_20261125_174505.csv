@@ -1,0 +1,16 @@
+﻿name,alpha_id,sharpe,fitness,turnover,returns,fails
+test_argmax,,,,,,"模拟出错: {'id': 'bCs8U7HH4XFaWv1yus0ySs', 'type': 'REGULAR', 'status': 'ERROR', 'me"
+test_arg_max,vRY8PpMr,0.44,0.19,0.1763,0.0337,LOW_SHARPE|LOW_FITNESS
+test_corr,akR6G5bw,-0.95,-0.56,0.15,-0.0515,LOW_SHARPE|LOW_FITNESS|LOW_SUB_UNIVERSE_SHARPE
+test_corr_ln,,,,,,"模拟出错: {'id': '321I7bwt4ILaS61aGLNwiNS', 'type': 'REGULAR', 'status': 'ERROR', 'm"
+test_cond,,,,,,"模拟出错: {'id': '1snshzgnM4J09MM13mQD9FUS', 'type': 'REGULAR', 'status': 'ERROR', '"
+test_sum_cond,,,,,,"模拟出错: {'id': 'PaFGDjr4qn9RjSh1etVG2', 'type': 'REGULAR', 'status': 'ERROR', 'mes"
+test_log,,,,,,"模拟出错: {'id': '4D3mg1dGU4ZiahL17xK1cHo2', 'type': 'REGULAR', 'status': 'ERROR', '"
+test_rank_simple,1YGe2mez,-0.95,-0.59,0.1137,-0.0476,LOW_SHARPE|LOW_FITNESS
+sv_decay20,3qGw2loe,1.03,0.65,0.093,0.0492,LOW_SHARPE|LOW_FITNESS|LOW_SUB_UNIVERSE_SHARPE
+sv_decay30,,,,,,模拟 2utviO8wv533b4bRpJMAepx 超时
+sv_decay5,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+sv_t005,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+sv_t005_d20,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+sv_top2k,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"
+sv_mom5,,,,,,"模拟提交失败 401: {""detail"":""Incorrect authentication credentials.""}"

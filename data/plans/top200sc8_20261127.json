@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc8_20261127",
+  "hypothesis": "第七批 T7_Triple(FwdEP252+IVHV60+ROE63+Buzz60) S2.63/F3.57/self0.4739 成为新王。FwdEP(63<126<252) 与 Buzz(5<20<60) 仍单调向长,未到拐点。本批下探 FwdEP 378/504、Buzz 120 及其组合,确认最终极值",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T8_FwdEP378",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 378)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.97
+    },
+    {
+      "label": "T8_FwdEP504",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 504)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.96
+    },
+    {
+      "label": "T8_Buzz120",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 120))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "T8_F378_B120",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 378)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 120))",
+      "settings": {},
+      "priority": 0.94
+    },
+    {
+      "label": "T8_F504_B120",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 504)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 120))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "T8_Triple_RR63",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_rank(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.92
+    },
+    {
+      "label": "T8_Triple_Backfill60",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 60)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.91
+    },
+    {
+      "label": "T8_Triple_d15",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {"decay": 15},
+      "priority": 0.90
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc_20261127",
+  "hypothesis": "TOP200 超大盘池 + socialmedia12 社媒情绪。之前社媒腿在 TOP1000/TOP3000 下单腿 S<0 且进基座 99% 同质,但大盘股媒体关注度远高、社媒信号信噪比可能不同。探索 socialmedia 在超大盘的独立 alpha",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "SC12_Buzz",
+      "expression": "rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "SC12_Sent",
+      "expression": "rank(ts_backfill(scl12_sentiment, 5))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "SC12_BuzzZ",
+      "expression": "rank(ts_zscore(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.91
+    },
+    {
+      "label": "SC12_SentChange",
+      "expression": "rank(ts_delta(ts_backfill(scl12_sentiment, 5), 5))",
+      "settings": {},
+      "priority": 0.89
+    },
+    {
+      "label": "SC12_Diverge",
+      "expression": "rank(ts_rank(scl12_buzz, 20) - ts_rank(ts_backfill(scl12_sentiment, 5), 20))",
+      "settings": {},
+      "priority": 0.87
+    },
+    {
+      "label": "Rev_SC12_Buzz",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.85
+    },
+    {
+      "label": "Rev_SC12_Sent",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_backfill(scl12_sentiment, 5))",
+      "settings": {},
+      "priority": 0.83
+    },
+    {
+      "label": "FwdEP_SC12_Buzz",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 3, "truncation": 0.01},
+      "priority": 0.81
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "batch": "subind2_20261126",
+  "hypothesis": "今天发现 SUBINDUSTRY 中性化是反转骨架的放大器（S 2.49→2.84）。明天批次：① SUBINDUSTRY + decay 扫描（之前 MARKET 下 decay=3 是峰值）；② 四腿结构（legprrG8 前瞻E/P+IV+ROE×1.5+周转率）配 SUBINDUSTRY；③ 换腿（ROE→sales/assets 周转率）+ SUBINDUSTRY",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "SUB_d3",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 3, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "SUB_d5",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 5, "truncation": 0.02},
+      "priority": 0.93
+    },
+    {
+      "label": "SUB_d15",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 15, "truncation": 0.02},
+      "priority": 0.91
+    },
+    {
+      "label": "SUB_FwdEP_4leg",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 1.0 * rank(ts_rank(sales / assets, 126))",
+      "settings": {"decay": 3, "truncation": 0.01},
+      "priority": 0.88
+    },
+    {
+      "label": "SUB_FwdEP_4leg_d5",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 1.0 * rank(ts_rank(sales / assets, 126))",
+      "settings": {"decay": 5, "truncation": 0.01},
+      "priority": 0.86
+    },
+    {
+      "label": "SUB_Rev2_Turn",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(sales / assets, 126))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.84
+    },
+    {
+      "label": "SUB_Turn_d3",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(sales / assets, 126))",
+      "settings": {"decay": 3, "truncation": 0.02},
+      "priority": 0.82
+    },
+    {
+      "label": "SUB_Rev1_d3",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"decay": 3, "truncation": 0.02},
+      "priority": 0.80
+    }
+  ]
+}

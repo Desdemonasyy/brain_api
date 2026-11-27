@@ -1,0 +1,65 @@
+{
+  "batch": "delaysub_20261126",
+  "hypothesis": "新方向：已提交 Pyramid 21 条全是 delay-1 / MARKET 中性化。本轮用两个天然低相关的差异源：delay-0（当日即时计算，与 delay-1 信号结构完全不同）和 SUBINDUSTRY 中性化（已知降 corr 0.18）。骨架保留反转+IV/HV+ROE 去核心化，但用 delay-0 或 SUBINDUSTRY 与 Rev2 形成足够差异",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "D0_Rev1",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 0, "neutralization": "MARKET", "decay": 10, "truncation": 0.02},
+      "priority": 0.95
+    },
+    {
+      "label": "D0_Rev15",
+      "expression": "-1.5 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 0, "neutralization": "MARKET", "decay": 10, "truncation": 0.02},
+      "priority": 0.93
+    },
+    {
+      "label": "D0_Rev2",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 0, "neutralization": "MARKET", "decay": 10, "truncation": 0.02},
+      "priority": 0.91
+    },
+    {
+      "label": "D0_Rev1_d3",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 0, "neutralization": "MARKET", "decay": 3, "truncation": 0.02},
+      "priority": 0.88
+    },
+    {
+      "label": "SUB_Rev1",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 1, "neutralization": "SUBINDUSTRY", "decay": 10, "truncation": 0.02},
+      "priority": 0.86
+    },
+    {
+      "label": "SUB_Rev15",
+      "expression": "-1.5 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 1, "neutralization": "SUBINDUSTRY", "decay": 10, "truncation": 0.02},
+      "priority": 0.84
+    },
+    {
+      "label": "SUB_Rev2",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 1, "neutralization": "SUBINDUSTRY", "decay": 10, "truncation": 0.02},
+      "priority": 0.82
+    },
+    {
+      "label": "D0_SUB_Rev1",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 0, "neutralization": "SUBINDUSTRY", "decay": 10, "truncation": 0.02},
+      "priority": 0.78
+    }
+  ]
+}

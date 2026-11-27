@@ -1,0 +1,53 @@
+{
+  "batch": "pead2_20261126",
+  "hypothesis": "PEAD 修正版：先做 group_rank 再做线性组合，所有相加项统一为无量纲分数，避免 EPS/Sales 与 close/assets 的单位冲突",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 20,
+    "truncation": 0.05,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "PEAD_EPS",
+      "expression": "group_rank(actual_eps_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.95
+    },
+    {
+      "label": "PEAD_EPS_60",
+      "expression": "group_rank(ts_mean(ts_backfill(actual_eps_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate), 60), 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.90
+    },
+    {
+      "label": "REV_EPS",
+      "expression": "group_rank(vec_avg(anl4_fs_basic_splt_v4_nd_eps_estimate) - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate), subindustry)",
+      "settings": {"decay": 10},
+      "priority": 0.90
+    },
+    {
+      "label": "REV_EPS_60",
+      "expression": "group_rank(ts_mean(ts_backfill(vec_avg(anl4_fs_basic_splt_v4_nd_eps_estimate) - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate), 60), 60), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.85
+    },
+    {
+      "label": "PEAD_SALES",
+      "expression": "group_rank((actual_sales_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_sales_previosestimate)) / assets, subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.80
+    },
+    {
+      "label": "SURP_COMBO",
+      "expression": "group_rank(actual_eps_value_quarterly - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate), subindustry) + 0.5 * group_rank(vec_avg(anl4_fs_basic_splt_v4_nd_eps_estimate) - vec_avg(anl4_fs_basic_splt_v4_nd_eps_previosestimate), subindustry)",
+      "settings": {"decay": 20},
+      "priority": 0.75
+    }
+  ]
+}

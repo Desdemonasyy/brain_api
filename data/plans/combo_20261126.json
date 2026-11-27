@@ -1,0 +1,53 @@
+{
+  "batch": "combo_20261126",
+  "hypothesis": "强模板 + 正交腿组合：保留已提交强核心，分别加入费用效率、低资本开支、期权期限结构、客户图谱等低相关腿",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP3000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "COMBO_ROE_SGA",
+      "expression": "rank(ts_rank(operating_income / equity, 126)) + rank(-equity / assets) + 0.5 * group_rank(-sga_expense / sales, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.95
+    },
+    {
+      "label": "COMBO_ROE_CAPEX",
+      "expression": "rank(ts_rank(operating_income / equity, 126)) + rank(-equity / assets) + 0.5 * group_rank(-ts_delta(capex, 252) / assets, subindustry)",
+      "settings": {"decay": 10, "truncation": 0.01},
+      "priority": 0.90
+    },
+    {
+      "label": "COMBO_EPS_IV_OPT9",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * group_rank(ts_delta((option_breakeven_360 - option_breakeven_30) / close, 20), subindustry)",
+      "settings": {"universe": "TOP1000", "neutralization": "MARKET", "decay": 10, "truncation": 0.01},
+      "priority": 0.85
+    },
+    {
+      "label": "COMBO_EPS_IV_PV13",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * group_rank(ts_mean(vec_avg(pv13_customer_graph_relationship_score), 20), subindustry)",
+      "settings": {"universe": "TOP1000", "neutralization": "MARKET", "decay": 10, "truncation": 0.01},
+      "priority": 0.80
+    },
+    {
+      "label": "COMBO_NEWS_SGA",
+      "expression": "-group_zscore((close - open) / open / ts_std_dev(returns, 20), subindustry) + 2.0 * (group_rank(ts_mean(vec_avg(nws12_afterhsz_sl), 20), subindustry) - 0.5) + 1.5 * (group_rank(ts_zscore(cashflow_op / cap, 250), subindustry) - 0.5) + 0.5 * group_rank(-sga_expense / sales, subindustry)",
+      "settings": {"neutralization": "INDUSTRY", "decay": 20, "truncation": 0.01},
+      "priority": 0.75
+    },
+    {
+      "label": "COMBO_PCR_CAPEX",
+      "expression": "rank(-ts_delta(ts_backfill(pcr_oi_90, 20), 20)) + rank(ts_rank(ts_backfill(anl4_ebit_value, 20) / cap, 126)) + 0.5 * group_rank(-ts_delta(capex, 252) / assets, subindustry)",
+      "settings": {"decay": 20, "truncation": 0.01},
+      "priority": 0.70
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "batch": "news3_20261127",
+  "hypothesis": "news18 分类新闻腿（rp_css_ratings/rp_nip_inverstor/rp_css_business）+ SUBINDUSTRY 四腿骨架。之前只用了 mean_news_impact_projection，这 40+ 个分领域字段是完全未探索的正交维度",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 3,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "FwdEP_RatingsNews",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(rp_css_ratings, 5))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "FwdEP_InvestorNews",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(rp_nip_inverstor, 5))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "FwdEP_BizNews",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(rp_css_business, 5))",
+      "settings": {},
+      "priority": 0.91
+    },
+    {
+      "label": "FwdEP_EarningsNews",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(rp_css_earnings, 5))",
+      "settings": {},
+      "priority": 0.89
+    },
+    {
+      "label": "FwdEP_Rev20_Ratings",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(rp_css_ratings, 5))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.86
+    },
+    {
+      "label": "FwdEP_RatingsNews_d10",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(rp_css_ratings, 5))",
+      "settings": {"decay": 10},
+      "priority": 0.84
+    },
+    {
+      "label": "RevROE_RatingsNews",
+      "expression": "-rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_backfill(rp_css_ratings, 5))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.82
+    },
+    {
+      "label": "RatingsNews_only",
+      "expression": "rank(ts_backfill(rp_css_ratings, 5))",
+      "settings": {"decay": 10, "truncation": 0.02},
+      "priority": 0.80
+    }
+  ]
+}

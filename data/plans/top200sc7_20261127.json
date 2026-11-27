@@ -1,0 +1,65 @@
+{
+  "batch": "top200sc7_20261127",
+  "hypothesis": "第六批发现 IVHV 窗口越短越好（60>90>120>180 单调）。本批继续下探 IVHV 20/30，并把三个独立提升项（IVHV60、FwdEP252、Buzz60）做组合，目标 S>=2.7 / F>=3.6",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP200",
+    "delay": 1,
+    "neutralization": "MARKET",
+    "decay": 10,
+    "truncation": 0.01,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "T7_IVHV20",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_30 / parkinson_volatility_20, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.97
+    },
+    {
+      "label": "T7_IVHV30",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_30 / parkinson_volatility_30, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.96
+    },
+    {
+      "label": "T7_IVHV60_Fwd252",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.95
+    },
+    {
+      "label": "T7_IVHV60_Buzz60",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.94
+    },
+    {
+      "label": "T7_Triple",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.93
+    },
+    {
+      "label": "T7_IVHV30_Fwd252",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_30 / parkinson_volatility_30, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {},
+      "priority": 0.92
+    },
+    {
+      "label": "T7_IVHV60_d12",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_60 / parkinson_volatility_60, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 5))",
+      "settings": {"decay": 12},
+      "priority": 0.91
+    },
+    {
+      "label": "T7_IVHV30_Triple",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 252)) + rank(ts_backfill(implied_volatility_call_30 / parkinson_volatility_30, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 63)) + 0.8 * rank(ts_backfill(scl12_buzz, 60))",
+      "settings": {},
+      "priority": 0.90
+    }
+  ]
+}

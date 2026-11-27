@@ -1,0 +1,77 @@
+{
+  "batch": "explo_20261127",
+  "hypothesis": "两个未探索维度合并：A组 delay-0（信号执行时点差一天，PnL 结构与 delay-1 天然不同，可绕开 family 墙；之前 delay0 只有 MARKET 旧骨架 S=1.81，现配 SUBINDUSTRY 放大器）；B组 全新量价算子（ts_corr 量价背离 / ts_arg_max 高点位置 / ts_zscore 盈利加速 / hump 降换手 / 换手率异常）",
+  "defaults": {
+    "region": "USA",
+    "universe": "TOP1000",
+    "delay": 1,
+    "neutralization": "SUBINDUSTRY",
+    "decay": 10,
+    "truncation": 0.02,
+    "nanHandling": "OFF",
+    "pasteurization": "ON",
+    "unitHandling": "VERIFY"
+  },
+  "items": [
+    {
+      "label": "D0_R20_IVHV_ROE",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 0},
+      "priority": 0.97
+    },
+    {
+      "label": "D0_Full4",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_rank(sales / assets, 126))",
+      "settings": {"delay": 0},
+      "priority": 0.95
+    },
+    {
+      "label": "D0_FwdEP_News",
+      "expression": "rank(ts_rank(anl4_afv4_eps_mean / close, 126)) + rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 1.5 * rank(ts_rank(operating_income / equity, 126)) + 0.4 * rank(ts_backfill(mean_news_impact_projection, 5))",
+      "settings": {"delay": 0, "decay": 3, "truncation": 0.01},
+      "priority": 0.93
+    },
+    {
+      "label": "D0_R20_ROE",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_rank(operating_income / equity, 126))",
+      "settings": {"delay": 0},
+      "priority": 0.91
+    },
+    {
+      "label": "PV_Corr",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_corr(returns, volume, 20))",
+      "settings": {},
+      "priority": 0.88
+    },
+    {
+      "label": "ArgMax",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.5 * rank(ts_arg_max(close, 20))",
+      "settings": {},
+      "priority": 0.86
+    },
+    {
+      "label": "RoeZscore",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_zscore(operating_income / equity, 252))",
+      "settings": {},
+      "priority": 0.84
+    },
+    {
+      "label": "Hump4Leg",
+      "expression": "hump(-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) + 0.5 * rank(ts_rank(sales / assets, 126)), 0.01)",
+      "settings": {},
+      "priority": 0.82
+    },
+    {
+      "label": "VolTurn",
+      "expression": "-2.0 * rank(ts_rank(returns, 5)) + 0.5 * rank(ts_backfill(implied_volatility_call_120 / parkinson_volatility_120, 20)) + 0.5 * rank(ts_rank(operating_income / equity, 126)) - 0.5 * rank(ts_rank(volume / cap, 20))",
+      "settings": {},
+      "priority": 0.80
+    },
+    {
+      "label": "Corr_Only",
+      "expression": "rank(ts_corr(returns, volume, 20))",
+      "settings": {},
+      "priority": 0.78
+    }
+  ]
+}
